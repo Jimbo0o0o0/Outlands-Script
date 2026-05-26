@@ -1,0 +1,42 @@
+# Ultimate Heal Pet for Tamer - will also res by Jaseowns
+# UO Outlands
+if not varexist jaseTankPet or not find jaseTankPet ground -1 -1 12
+    overhead "Select your tank pet" 88
+    @setvar! jaseTankPet    
+endif
+
+@setvar! useVetSupplies 1
+
+if skill "Veterinary" >= 50 and not bandaging
+    if useVetSupplies = 1 and findtype "veterinary supplies" backpack as vets
+        dclick vets
+    elseif findtype "clean bandage%s%" backpack as aids
+        dclick aids
+        wft 500
+        target jaseTankPet
+    endif
+endif
+
+if skill "Magery" >= 50
+    if not dead jaseTankPet
+        while not targetexists beneficial
+            hotkey 'Greater Heal'
+            wft 200
+        endwhile
+    else
+       while not targetexists beneficial
+            hotkey 'Resurrection'
+            wft 200
+        endwhile
+    endif
+endif
+
+if targetexists beneficial
+    target jaseTankPet
+endif
+
+if listexists jaseowns_PreviousScript
+    foreach myScript in jaseowns_PreviousScript
+        hotkey myScript
+    endfor
+endif

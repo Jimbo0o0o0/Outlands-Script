@@ -1,0 +1,17 @@
+
+@clearignore
+while weight > maxweight
+    if findtype "gold coin" backpack as item
+        lift item 2000
+        if findtype 'gold coin' ground -1 -1 2 as GroundCoin
+            drop 'GroundCoin' -1 -1 1
+        else
+            droprelloc 0 0
+        endif
+        if insysmsg  "You cannot place items on the ground in this location." and findtype 8198 ground -1 -1 2 as jorpse
+            overhead "Dropping: {{desc}}" 88 jorpse
+            drop jorpse  
+        endif
+    endif
+    clearall
+endwhile

@@ -1,0 +1,33 @@
+# Bapeth's Object Drag & Dropper
+#
+# Open the party menu to clear the object and set anew
+#
+# Script starts here
+
+if not find golddropoff ground
+    hotkey "Set last target"
+    wft 500
+    overhead "Select an object to drag" 88
+    while targetexists 
+        //donothing
+    endwhile
+    @setvar golddropoff lasttarget 
+    overhead "Object set" 87
+endif
+
+if find golddropoff ground -1 -1 2
+    drop backpack
+    lift golddropoff 6000
+    drop 0
+    while queued
+        //donothing
+    endwhile
+endif
+wait 650
+if gumpexists 3527489586
+    gumpclose 3527489586
+    overhead "Ground Object Cleared" 45
+    @unsetvar golddropoff
+endif
+clearall
+loop

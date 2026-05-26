@@ -1,0 +1,96 @@
+@setvar! globalTimeout 650
+
+if mana > 10
+   
+    if findtype "magic item chest" ground -1 -1 2 as vault
+        dclick vault
+        waitforgump 938517546
+        wait globalTimeout
+        gumpresponse 107
+        waitforgump 938517546
+        wait globalTimeout
+        gumpresponse 1103 
+        waitforgump 938517546
+        wait globalTimeout
+        gumpresponse 300
+        waitforgump 938517546
+        wait globalTimeout
+        gumpclose 938517546
+        if findtype "spellbook" backpack 2606 as book
+            dclick book
+            wait globalTimeout
+        endif
+    endif      
+    if findtype "storage shelf" ground -1 -1 2 as shelf
+        menu shelf 1
+        wait globalTimeout
+    endif
+#    if findtype 3701 backpack 0 as pack
+#    lift pack 1
+#    wait globalTimeout
+#    drop backpack 43 68 0
+#    dclick pack
+#
+#    endif  
+#   //drop Sheperd Crook into traped pouch
+#    if findtype 3705 as pouch
+#        lifttype 3713
+#    wait globalTimeout
+#        drop pouch
+#    endif
+// set grab bag to pouch
+    if findtype 3705 as pouch
+    hotkey "Set Grab Item Hotbag"
+    wft 500
+    target jootbag
+       wait globalTimeout  
+    endif  
+     
+     
+     if findtype 5061 backpack as sleeves
+        dclick sleeves 1
+        wait globalTimeout
+    endif
+     if findtype 7610 backpack as cap
+         dclick cap 1
+        wait globalTimeout
+    endif
+    if findtype 5075 backpack as chest
+        dclick chest 1
+        wait globalTimeout
+    endif
+    if find 0x5A3BD57B backpack as chain
+        lift chain 1
+        wait globalTimeout
+        drop self Talisman
+        wait globalTimeout
+    endif
+    if findtype 5074 backpack as leggings 
+        dclick leggings  1
+        wait globalTimeout
+    endif
+    if findtype 5070 backpack as gloves 
+        dclick gloves 
+        wait globalTimeout
+    endif
+    if findtype 5063 backpack as gorget 
+        dclick gorget  1
+        wait globalTimeout
+    endif
+    if findtype 5903 backpack as shoes
+        dclick shoes 1
+        wait globalTimeout
+    endif
+#    if findtype 31143 backpack as hip
+#        dclick hip
+#        wait globalTimeout
+#    endif
+    
+   #
+        say '[AspectSpellbook Harvest'
+        wait globalTimeout
+        say '[AspectArmor Harvest'
+    
+endif
+
+overhead 'READY TO GO'

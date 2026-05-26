@@ -1,0 +1,332 @@
+# Ultimate Recall using Tome or Book by Jaseowns
+# UO Outlands
+# Livestream: https://youtu.be/JtWgeyr85uQ
+# The follow up: https://youtu.be/Oa-Am2tJ96k?t=5209
+# Create one cript per numpad hotkey to set the RB serial and location
+#
+# @setvar! recallRunePosition 1
+# @setvar! myRecallRb 0x00000000
+# script 'Npad Recall'
+
+if not findtype "runebook" backpack and not findtype "runetome" backpack
+    overhead "We do not have a runebook or runetome" 34
+    stop
+endif
+
+
+if findlayer self righthand as item
+    @setvar! jase_recall_right_hand item
+endif
+
+if findlayer self lefthand as item
+    @setvar! jase_recall_left_hand item
+endif
+
+if not varexist myRecallRb
+    if counttype "runebook" backpack = 1 and counttype "runetome" backpack = 0 and findtype "runebook" backpack as myBook
+        overhead "Automatically selected your one runebook" 88
+        @setvar myRecallRb myBook
+    elseif counttype "runebook" backpack = 0 and counttype "runetome" backpack = 1 and findtype "runetome" backpack as myBook
+        overhead "Automatically selected your one runetome" 88
+        @setvar myRecallRb myBook
+    else
+        overhead "Select your escape plan (runebook or runetome)" 88
+        @setvar myRecallRb 
+    endif
+endif
+
+if myRecallRb = 0 or not find myRecallRb backpack
+    unsetvar myRecallRb
+    replay
+endif
+
+if mana < 12
+    overhead "Need more mana... trying again" 34
+    wait 500
+    replay
+endif
+
+
+
+@setvar! escapePlanUseMagery 0
+if skill "Magery" >= 60
+    if counttype "Black Pearl%s%" self >= 1 and counttype "Blood Moss" self >= 1 and counttype "Mandrake Root%s%" self >= 1
+        @setvar! escapePlanUseMagery 1
+    else
+        if findtype "reagent satchel" self as satchel
+            if counttype "Black Pearl%s%" satchel >= 1 and counttype "Blood Moss" satchel >= 1 and counttype "Mandrake Root%s%" satchel >= 1
+                @setvar! escapePlanUseMagery 1
+            endif
+        endif
+        if escapePlanUseMagery = 0
+            overhead "No regs, using scroll instead" 34
+        endif
+    endif
+endif
+
+
+getlabel myRecallRb desc
+@setvar! escapePlanGumpId 1551740969
+@setvar! secondaryGumpResponse 0
+if "rune tome" in desc
+    
+    if escapePlanUseMagery = 1 
+        if recallRunePosition = 1
+            @setvar! recallHomeGumpResponse 200
+        elseif recallRunePosition = 2
+            @setvar! recallHomeGumpResponse 201
+        elseif recallRunePosition = 3
+            @setvar! recallHomeGumpResponse 202
+        elseif recallRunePosition = 4
+            @setvar! recallHomeGumpResponse 203
+        elseif recallRunePosition = 5
+            @setvar! recallHomeGumpResponse 204
+        elseif recallRunePosition = 6
+            @setvar! recallHomeGumpResponse 205
+        elseif recallRunePosition = 7
+            @setvar! recallHomeGumpResponse 206
+        elseif recallRunePosition = 8
+            @setvar! recallHomeGumpResponse 207
+        elseif recallRunePosition = 9
+            @setvar! recallHomeGumpResponse 208
+        elseif recallRunePosition = 10
+            @setvar! recallHomeGumpResponse 209
+        elseif recallRunePosition = 11
+            @setvar! recallHomeGumpResponse 210
+        elseif recallRunePosition = 12
+            @setvar! recallHomeGumpResponse 211
+        elseif recallRunePosition = 13
+            @setvar! recallHomeGumpResponse 212
+        elseif recallRunePosition = 14
+            @setvar! recallHomeGumpResponse 213
+        elseif recallRunePosition = 15
+            @setvar! recallHomeGumpResponse 214
+        elseif recallRunePosition = 16
+            @setvar! recallHomeGumpResponse 215
+        elseif recallRunePosition = 16
+            @setvar! recallHomeGumpResponse 215
+        elseif recallRunePosition = 17
+            @setvar! recallHomeGumpResponse 216
+        elseif recallRunePosition = 18
+            @setvar! recallHomeGumpResponse 217
+        elseif recallRunePosition = 19
+            @setvar! recallHomeGumpResponse 218
+        elseif recallRunePosition = 20
+            @setvar! recallHomeGumpResponse 219
+        elseif recallRunePosition = 21
+            @setvar! recallHomeGumpResponse 220
+        elseif recallRunePosition = 22
+            @setvar! recallHomeGumpResponse 221
+        elseif recallRunePosition = 23
+            @setvar! recallHomeGumpResponse 222
+        elseif recallRunePosition = 24
+            @setvar! recallHomeGumpResponse 223
+        elseif recallRunePosition = 25
+            @setvar! recallHomeGumpResponse 224
+        elseif recallRunePosition = 26
+            @setvar! recallHomeGumpResponse 225
+        else
+            overhead "Update recallRunePosition to 1 through 26" 34
+            wait 1000
+            replay
+        endif
+
+        if recallHomeGumpResponse = 201 or recallHomeGumpResponse = 203 or recallHomeGumpResponse = 205 or recallHomeGumpResponse = 207 or recallHomeGumpResponse = 209 or recallHomeGumpResponse = 211 or recallHomeGumpResponse = 213 or recallHomeGumpResponse = 215 or recallHomeGumpResponse = 217 or recallHomeGumpResponse = 219 or recallHomeGumpResponse = 221 or recallHomeGumpResponse = 223 or recallHomeGumpResponse = 223 or recallHomeGumpResponse = 225
+            @setvar! secondaryGumpResponse 20
+        else 
+            @setvar! secondaryGumpResponse 10
+        endif
+    else
+        if recallRunePosition = 1
+            @setvar! recallHomeGumpResponse 100
+        elseif recallRunePosition = 2
+            @setvar! recallHomeGumpResponse 101
+        elseif recallRunePosition = 3
+            @setvar! recallHomeGumpResponse 102
+        elseif recallRunePosition = 4
+            @setvar! recallHomeGumpResponse 103
+        elseif recallRunePosition = 5
+            @setvar! recallHomeGumpResponse 104
+        elseif recallRunePosition = 6
+            @setvar! recallHomeGumpResponse 105
+        elseif recallRunePosition = 7
+            @setvar! recallHomeGumpResponse 106
+        elseif recallRunePosition = 8
+            @setvar! recallHomeGumpResponse 107
+        elseif recallRunePosition = 9
+            @setvar! recallHomeGumpResponse 108
+        elseif recallRunePosition = 10
+            @setvar! recallHomeGumpResponse 109
+        elseif recallRunePosition = 11
+            @setvar! recallHomeGumpResponse 110
+        elseif recallRunePosition = 12
+            @setvar! recallHomeGumpResponse 111
+        elseif recallRunePosition = 13
+            @setvar! recallHomeGumpResponse 112
+        elseif recallRunePosition = 14
+            @setvar! recallHomeGumpResponse 113
+        elseif recallRunePosition = 15
+            @setvar! recallHomeGumpResponse 114
+        elseif recallRunePosition = 16
+            @setvar! recallHomeGumpResponse 115
+        elseif recallRunePosition = 16
+            @setvar! recallHomeGumpResponse 115
+        elseif recallRunePosition = 17
+            @setvar! recallHomeGumpResponse 116
+        elseif recallRunePosition = 18
+            @setvar! recallHomeGumpResponse 117
+        elseif recallRunePosition = 19
+            @setvar! recallHomeGumpResponse 118
+        elseif recallRunePosition = 20
+            @setvar! recallHomeGumpResponse 119
+        elseif recallRunePosition = 21
+            @setvar! recallHomeGumpResponse 120
+        elseif recallRunePosition = 22
+            @setvar! recallHomeGumpResponse 121
+        elseif recallRunePosition = 23
+            @setvar! recallHomeGumpResponse 122
+        elseif recallRunePosition = 24
+            @setvar! recallHomeGumpResponse 123
+        elseif recallRunePosition = 25
+            @setvar! recallHomeGumpResponse 124
+        elseif recallRunePosition = 26
+            @setvar! recallHomeGumpResponse 125
+        else
+            overhead "Update recallRunePosition to 1 through 26" 34
+            wait 1000
+            replay
+        endif
+    endif
+
+
+    @setvar! escapePlanGumpId 167090027
+elseif "runebook" in desc
+
+    if escapePlanUseMagery = 1 
+        if recallRunePosition = 1
+            @setvar! recallHomeGumpResponse 5
+        elseif recallRunePosition = 2
+            @setvar! recallHomeGumpResponse 11
+        elseif recallRunePosition = 3
+            @setvar! recallHomeGumpResponse 17
+        elseif recallRunePosition = 4
+            @setvar! recallHomeGumpResponse 23
+        elseif recallRunePosition = 5
+            @setvar! recallHomeGumpResponse 29
+        elseif recallRunePosition = 6
+            @setvar! recallHomeGumpResponse 35
+        elseif recallRunePosition = 7
+            @setvar! recallHomeGumpResponse 41
+        elseif recallRunePosition = 8
+            @setvar! recallHomeGumpResponse 47
+        elseif recallRunePosition = 9
+            @setvar! recallHomeGumpResponse 53
+        elseif recallRunePosition = 10
+            @setvar! recallHomeGumpResponse 59
+        elseif recallRunePosition = 11
+            @setvar! recallHomeGumpResponse 65
+        elseif recallRunePosition = 12
+            @setvar! recallHomeGumpResponse 71
+        elseif recallRunePosition = 13
+            @setvar! recallHomeGumpResponse 77
+        elseif recallRunePosition = 14
+            @setvar! recallHomeGumpResponse 83
+        elseif recallRunePosition = 15
+            @setvar! recallHomeGumpResponse 89
+        elseif recallRunePosition = 16
+            @setvar! recallHomeGumpResponse 95  
+        else
+            overhead "Update recallRunePosition to 1 through 16" 34
+            wait 1000
+            replay
+        endif
+
+    else
+        if recallRunePosition = 1
+            @setvar! recallHomeGumpResponse 2
+        elseif recallRunePosition = 2
+            @setvar! recallHomeGumpResponse 8
+        elseif recallRunePosition = 3
+            @setvar! recallHomeGumpResponse 14
+        elseif recallRunePosition = 4
+            @setvar! recallHomeGumpResponse 20
+        elseif recallRunePosition = 5
+            @setvar! recallHomeGumpResponse 26
+        elseif recallRunePosition = 6
+            @setvar! recallHomeGumpResponse 32
+        elseif recallRunePosition = 7
+            @setvar! recallHomeGumpResponse 38
+        elseif recallRunePosition = 8
+            @setvar! recallHomeGumpResponse 44
+        elseif recallRunePosition = 9
+            @setvar! recallHomeGumpResponse 50
+        elseif recallRunePosition = 10
+            @setvar! recallHomeGumpResponse 56
+        elseif recallRunePosition = 11
+            @setvar! recallHomeGumpResponse 62
+        elseif recallRunePosition = 12
+            @setvar! recallHomeGumpResponse 68
+        elseif recallRunePosition = 13
+            @setvar! recallHomeGumpResponse 74
+        elseif recallRunePosition = 14
+            @setvar! recallHomeGumpResponse 80
+        elseif recallRunePosition = 15
+            @setvar! recallHomeGumpResponse 86
+        elseif recallRunePosition = 16
+            @setvar! recallHomeGumpResponse 92
+        else
+            overhead "Update recallRunePosition to 1 through 16" 34
+            wait 1000
+            replay
+        endif
+    endif
+else
+    overhead "Unknown escape plan" 34
+    unsetvar myRecallRb
+    replay
+endif
+
+hotkey '> Interrupt'
+while targetexists  
+    hotkey 'Cancel Current Target'
+    wait 200
+endwhile
+
+while not gumpexists escapePlanGumpId
+    dclick myRecallRb
+    wait 200
+endwhile
+gumpresponse recallHomeGumpResponse escapePlanGumpId
+if secondaryGumpResponse > 0
+    waitforgump escapePlanGumpId 5000
+    gumpresponse secondaryGumpResponse escapePlanGumpId
+endif
+wait 200
+gumpclose escapePlanGumpId
+if insysmsg "There are no charges left on that item."
+    overhead "Oh no! Out of charges!" 34
+endif
+
+
+if varexist jase_recall_right_hand and not findlayer self righthand and jase_recall_right_hand != 0
+    overhead "will requip hands in 2 seconds" 88
+    wait 2200
+elseif varexist jase_recall_left_hand and not findlayer self lefthand and jase_recall_left_hand != 0
+    overhead "will requip hands in 2 seconds" 88
+    wait 2200
+endif
+
+
+if varexist jase_recall_right_hand
+    if not findlayer self righthand and jase_recall_right_hand != 0
+        dclick jase_recall_right_hand
+        wait 650
+    endif
+endif
+
+if varexist jase_recall_left_hand
+    if not findlayer self lefthand and jase_recall_left_hand != 0
+        dclick jase_recall_left_hand
+        wait 650
+    endif
+endif

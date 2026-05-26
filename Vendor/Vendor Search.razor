@@ -1,0 +1,25 @@
+// OutlandMall by Sandro & Gankstar
+@setvar! timeout 650
+@setvar! vendorID 9746240
+@setvar! itemID 1294476389
+while not dead
+if find vendorID ground -1 -1 20
+            overhead "● ▼▼ HERE ▼▼ ●" 88 vendorID
+            getlabel vendorID Vname
+            overhead Vname 88 vendorID
+    if findtype 3701 vendorID as pack
+            wait timeout
+            dclick pack
+            wait timeout
+        if find itemID pack as item
+            getlabel itemID Iname
+            overhead Iname 88 vendorID
+            wait timeout
+            menu item 0 
+        wait timeout
+        endif 
+    endif
+    stop
+endif
+wait timeout
+endwhile

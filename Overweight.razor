@@ -1,0 +1,31 @@
+
+#TODO: List unidentified item to drop
+ 
+
+
+        if weight >= maxweight and findtype 3821|3854 backpack 
+           overhead "Overweight!" 34
+            sysmsg "Overweight!" 34
+                @drop backpack
+                lifttype '3821' DropGoldAmount backpack  
+                droprelloc 0 0
+                sysmsg '◆  Gold drop protection' 53
+                wait 655
+           
+        endif
+
+        getlabel backpack desc    
+        if "126/125|127/125|128/125|129/125|130/125|" in desc
+            overhead "Overitems!" 34
+            sysmsg "Overitems!" 34
+            if findtype 31169|3568 backpack as item
+            if "unidentified" in checkForBlessed
+                lift item 
+                droprelloc 0 0
+                wait 655
+
+            endif 
+            endif
+        endif
+
+    endif

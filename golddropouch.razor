@@ -1,0 +1,34 @@
+# UO Outlands
+# golddroppouch.razor
+
+if not varexist golddropoff or not find golddropoff ground -1 -1 20
+    overhead "Where should gold go?"
+    @setvar! golddropoff
+        lift golddropoff 
+        wait 250
+        droprelloc 0 0
+        #drop golddropoff -1 -1 -1
+        wait 650 
+        overhead "Bag Set" 2085 golddropoff  
+        cooldown "GoldBag" 3600000  
+endif
+
+while findtype "gold coin" backpack as gold    
+    if not find golddropoff ground -1 -1 2
+        if find golddropoff ground -1 -1 20 as bag
+        overhead "Here" 2085 bag
+        else
+        overhead "No Bag Found" 33 
+        endif
+        break
+    endif
+    lift gold 60000
+    wait 250
+    drop golddropoff -1 -1 -1
+    wait 650
+    @ignore gold
+    overhead "$$$" 2085 golddropoff
+endwhile
+@clearignore 
+# nom du script a restarter
+script 'ScriptName' 

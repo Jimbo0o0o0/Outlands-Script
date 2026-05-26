@@ -1,0 +1,66 @@
+@setvar! dropset 1
+@setvar! autoset 1
+
+if not varexist golddropoff
+    @setvar! golddropoff
+endif
+
+if autoset = 1
+    # Automatically set the drop location
+    if find 3705 ground -1 -1 2 as ground_pouch
+        @setvar! golddropoff ground_pouch
+        overhead "Pouch found on ground"
+    endif
+    //stop
+endif
+
+if dropset = 0 
+    # Set the drop location manually using option, edit variable
+elseif dropset = 1 and not find golddropoff ground -1 -1 10
+    # Ask for the drop location
+    overhead "Where should items go?"
+    @setvar! golddropoff
+        wait 100
+        lift golddropoff 
+        wait 100
+        drop golddropoff -1 -1 -1
+        wait 100    
+        stop
+elseif dropset = 2 and not find golddropoff ground -1 -1 10
+    # Find and set new pouch
+    if findtype 3705 backpack 38 as found_pouch
+    getlabel found_pouch description
+
+    if "(0 items, 0 stones)" in description
+        @setvar! golddropoff found_pouch
+        overhead "Pouch placed on ground and set" 53
+        lift golddropoff 
+        wait 100
+        drop golddropoff -1 -1 -1
+        wait 100 
+     
+    else
+        @ignore found_pouch
+    endif
+    endif
+endif
+
+if varexist golddropoff and find golddropoff ground -1 -1 2
+    if findtype "gold coin" backpack as Coin 
+    lift Coin 60000
+    wait 100
+    drop golddropoff -1 -1 -1
+else 
+say "[Oops"
+if findtype 'gold coin' backpack as Coin
+    lift Coin 1000
+    if findtype 'gold coin' ground -1 -1 2 as GroundCoin
+       drop GroundCoin -1 -1 1
+       wait 100 
+       endif
+    droprelloc 0 0
+    
+endif
+
+clearall
+@clearignore   

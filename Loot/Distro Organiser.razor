@@ -1,0 +1,238 @@
+# BOSS UNLOADER 2.7
+# boss run loot to distro
+@setvar! gc 675
+
+@clearignore
+while findtype 3705 backpack 38 as found_pouch
+    getlabel found_pouch description
+
+    if "(0 items, 0 stones)" in description 
+        @ignore found_pouch
+    else
+        overhead "FOUND NOT EMPTY POUCH" 53
+        lift found_pouch 
+        wait 100
+        drop backpack 100 100 
+        wait 100
+        dclick found_pouch  
+      wait 675  
+    endif
+    
+endwhile
+
+if findtype "repair bench" ground -1 -1 2 as bench
+    dclick bench
+    wait globalTimeout
+endif
+
+
+if not varexist DistroChest or not find DistroChest ground -1 -1 2
+sysmsg "Where should items go ?"
+overhead 'Select Distro Chest' 187
+    @setvar! DistroChest
+    wait 100
+    overhead '◆UNLOADING HERE◆ ' 88 DistroChest
+endif
+
+#overhead 'Select Distro Chest' 187
+#setvar DistroChest
+#wait 150
+#while targetexists 
+#wait 100
+#endwhile
+#overhead '◆UNLOADING HERE◆ ' 88 DistroChest
+
+
+dclick DistroChest
+wait gc
+
+##################################################### Items #####################################################
+// cores
+while findtype 3985|4025 backpack as item
+    @drop backpack
+    lift item 1 backpack
+    drop DistroChest 20 145 0
+    wait gc
+endwhile
+
+// distill
+while findtype 17686|4026 backpack as item
+    @drop backpack
+    lift item 1 backpack
+    drop DistroChest 30 145 0
+    wait gc
+endwhile
+
+// Phylacteries
+while findtype 576 backpack as item
+    @drop backpack
+    lift item 1 backpack 
+    drop DistroChest 40 145 0 
+    wait gc
+endwhile
+  
+// skill scroll
+while findtype 8826 backpack as item
+    @drop backpack
+    lift item 1 backpack
+    drop DistroChest 57 145 0
+
+    wait gc
+endwhile
+
+// Scrolls spellbook
+#while findtype 7981|7982|7983|7984|7985|7986|7987|7988|7989|7990|7991|7992|7993|7994|7995|7996|7997|7998|7999|8000|8001|8002|8003|8004|8005|8006|8007|8008|8009|8010|8011|8012|8013|8014|8015|8016|8017|8018|8019|8020|8021|8022|8023|8024|8025|8026|8027|8028|8029|8030|8031|8032|8033|8034|8035|8036|8037|8038|8039|8040|8041|8042|8033|8044 backpack as trashscroll
+#    @drop backpack
+#    lift trashscroll 60000
+#    droprelloc 0 0
+#    wait 650
+#    while queued
+#        wait 50
+#    endwhile
+#endwhile
+
+// cloth
+while findtype 5981 backpack as item
+    @drop backpack
+    lift item 1 backpack
+    drop DistroChest 90 95 0
+    wait gc
+endwhile
+
+// tmaps
+while findtype 5356 backpack as item
+    @drop backpack
+    lift item 1 backpack
+    drop DistroChest 72 143 0
+    wait gc
+endwhile
+
+// dyes
+while findtype 29036|3843|3839|3842|29025 backpack as item
+    @drop backpack
+    lift item 1 backpack
+    drop DistroChest 90 150 0
+    wait gc
+endwhile
+
+//orb
+while findtype 22336 backpack as item
+    @drop backpack
+    lift item 1 backpack
+    drop DistroChest 89 147 0
+    wait gc
+endwhile
+
+//carpet
+while findtype 'carpet' backpack any
+    @drop backpack
+    lifttype 'carpet' 1 backpack any
+    drop DistroChest 25 108 0
+    wait gc
+endwhile
+
+//stacking chems
+while findtype 29030 backpack as item
+    @drop backpack
+    lifttype 29030 60000 backpack
+    drop DistroChest -1 -1 0
+    wait gc
+endwhile
+
+// MCD
+while findtype 17087 backpack as item
+    @drop backpack
+    lift item 1 backpack  
+    drop DistroChest 70 112 0
+    wait gc
+endwhile
+
+// survival gear
+while findtype 37181 backpack as item
+    lift item 60000 backpack  
+    drop DistroChest 110 137 0
+    wait gc
+endwhile
+
+// red lightning bottle
+while findtype 25359 backpack as item
+    @drop backpack
+    lift item 60000 backpack  
+    drop DistroChest 57 112 0
+    wait gc
+endwhile
+
+// spell hue
+while findtype 5359|11858 backpack as item
+    @drop backpack
+    lift item 60000 backpack  
+    drop DistroChest 57 112 0
+    wait gc
+endwhile
+
+// RM
+while findtype 24434 backpack as item
+    lift item 60000 backpack  
+    drop DistroChest 130 141 0
+    wait gc
+endwhile
+
+// mini token
+while findtype 17083 backpack as item
+    lift item 60000 backpack  
+    drop DistroChest 114 111 0
+    wait gc
+endwhile
+
+//token
+while findtype 5192 backpack as item
+    lift item 60000 backpack  
+    drop DistroChest 135 104 0
+    wait gc
+endwhile
+
+// stacking gold
+#while findtype "gold coin" backpack as item
+#    lifttype "gold coin" 60000 backpack
+#    drop DistroChest -1 -1 0
+#    wait gc
+#endwhile
+
+//stacking  arcane scroll
+while findtype 3827 backpack as item
+    lifttype 3827 60000 backpack
+    drop DistroChest -1 -1 0
+    wait gc
+endwhile
+
+//Rune
+#while findtype 'rune' backpack 
+#    while findtype 29104 ground -1 -1 2 as tome
+#        menu tome 0
+#        wait 200
+#        @ignore tome
+#    endwhile
+#    overhead 'Runes'
+#    lifttype 'rune' 60000 backpack   
+#    drop 0x4CCCDD7A -1 -1 0
+#    wait gc
+#endwhile
+
+
+getlabel DistroChest DistroDesc
+overhead DistroDesc 88 DistroChest
+
+
+if findtype "ornate elven chest|magic item recycler" ground -1 -1 2 as recycler
+    menu recycler 1
+    wait 200
+    getlabel recycler myLabel
+    if "125 items" in myLabel
+       overhead "Recycler Full" 33 
+       # script name to recycle
+       # script 'ScriptName'
+    endif
+endif
+
+
+overhead 'Distribution Finished' 44

@@ -1,0 +1,60 @@
+#UO Outlands
+# goldmovepouch.razor
+
+        if not timerexists lootsensetimer
+            createtimer lootsensetimer
+            settimer lootsensetimer 5000
+            overhead "Scanner Active"
+        endif
+        if timer lootsensetimer >= 5000
+            for 18
+                if index > 0 and findtype "3705" ground -1 -1 index as lootlocation
+                    overhead "*Pouch*" 2091 lootlocation
+                    @ignore lootlocation
+                endif
+                if warmode
+                    break
+                endif
+            endfor
+            @clearignore 
+            settimer lootsensetimer 0
+        endif
+
+if find 3705 ground -1 -1 2 as ground_pouch
+        @setvar! golddropoff ground_pouch
+        overhead "Opening"
+endif
+
+if find golddropoff ground -1 -1 2
+   dclick golddropoff
+   wait 250
+   if findtype "gold coin" golddropoff as gold
+   
+       overhead "Looting Gold" 2085 golddropoff
+       while diffweight > 20 and findtype "gold coin" golddropoff as gold
+           lift gold 1000 
+        wait 250
+        drop backpack 100 100 0
+        wait 650 
+        endwhile
+    else
+        overhead "No Gold" 2085 golddropoff
+    endif
+endif
+
+if weight > maxweight and find golddropoff ground -1 -1 2
+    overhead "Overweight, dropping gold in pouch" 33
+    while diffweight < 10 and findtype "gold coin" backpack as gold
+        lift gold 1000
+        wait 250
+        drop golddropoff -1 -1 -1
+        wait 650
+        @ignore gold
+        overhead "$$$" 2085 golddropoff
+    endwhile
+elseif weight > maxweight 
+        overhead ' Overweight, Drinking Strength!' 1150
+endif
+ @clearignore
+# nom du script a restarter
+script 'ScriptName'

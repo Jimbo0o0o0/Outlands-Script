@@ -1,0 +1,146 @@
+# Script by [DoS] Chumber
+# Works with a SINGLE ressource map in your backpack
+# Just go to the spot (or near it) and start the script 
+# It will equip the right tool and start looking for the cart
+if skill "Tracking" > 0
+    if not findbuff "tracking"
+        clearsysmsg
+        while not gumpexists 4267467659
+            useskill 'tracking'
+            wait 675
+        endwhile
+        if gumpexists 4267467659
+            //while not insysmsg "You will now hunt all hostile players."
+            //    gumpresponse 8 4267467659
+            //    waitforgump 4267467659 5000
+            //endwhile
+            gumpresponse 6 4267467659
+            wait 675
+        endif
+        gumpclose 4267467659
+    endif
+endif
+   
+if followers < 4 and mana > 50
+    cast 'Earth Elemental'
+    wait 3100
+endif
+if followers >= 4
+hotkey 'all guard'
+endif
+clearsysmsg
+@setvar! myMap 0
+if findtype 'map' self 2799 as myCurrentMap
+    overhead "Lumber Map" 2799
+    @setvar! myMap myCurrentMap
+    if lhandempty
+        if counttype 'hatchet' self = 0
+            overhead "No Hatchets found!" 32
+            stop
+        endif
+        dclicktype 'hatchet'
+        wait 2000
+    endif
+    dclicktype 'hatchet'
+        //dclick whichHand
+        wft 500
+        target self
+        wait 2000
+    
+    @setvar! whichHand lefthand
+elseif findtype 'map' self 2796 as myCurrentMap
+    overhead "Ore Map" 2796
+    @setvar! myMap myCurrentMap
+    if rhandempty
+        if counttype 'pickaxe' self = 0
+            overhead "No pickaxes found!" 32
+            stop
+        endif
+        dclicktype 'pickaxe'
+        wait 2000
+    endif
+    dclicktype 'pickaxe'  
+        wait 2000
+    
+    @setvar! whichHand righthand
+elseif findtype 'map' self 2651 as myCurrentMap
+    overhead "Skinning Map" 2651
+    @setvar! myMap myCurrentMap
+    if findtype 'Elven Spellblade' self as skinningBlade
+        dclick skinningBlade
+        wft 500
+        target self
+        wait 2000
+        @setvar! whichHand skinningBlade
+    else
+        overhead "No skinning blade found!" 32
+        stop
+    endif
+ elseif findtype 'map' self 2904 as myCurrentMap
+    overhead "Fishing Map" 2799
+    @setvar! myMap myCurrentMap
+    if lhandempty and findtype "fishing pole" self as myStick
+        if counttype 'fishing pole' self = 0
+        overhead "No Fishing Pole found!" 32
+            stop
+        endif
+         lift myStick
+         wait 675
+         drop self lefthand  
+        wait 2000
+    endif
+    dclicktype 'fishing pole'
+        //dclick whichHand
+        wft 500
+        target self
+        wait 2000
+    
+        @setvar! whichHand lefthand   
+    
+endif
+
+
+if findtype 'cart|stretched hide' ground -1 -1 6 as cart
+    overhead "You found it, lets go!" 2207
+    while not insysmsg 'You have completely exhausted'
+        if insysmsg "now tracking"
+        say "[Oops"
+        overhead "DANGER Run Away" 34
+        setvar! recall_rune_serial 0x41A12D0D
+        cast 'Recall'
+        wft
+        target recall_rune_serial  
+        stop
+        endif
+
+        dclick whichHand
+        wft 250
+        target self
+        if weight > maxweight
+        organizer 2
+            while queued
+            overhead 'Moving Ore'
+                wait 350
+            endwhile
+        endif
+        wait 2000
+    endwhile
+    dclick cart
+    overhead "Map done" 2207
+    @setvar! myMap 0
+    @setvar! Mapdone 1
+endif
+
+if myMap > 0
+    overhead "Wrong spot!" 2207
+   // wait 2000
+    replay
+endif
+
+if Mapdone > 0
+    @setvar! Mapdone 0
+if not warmode
+    script 'RecalRunebookRoom'
+endif
+    stop
+endif

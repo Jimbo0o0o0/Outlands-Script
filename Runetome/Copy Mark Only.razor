@@ -1,0 +1,39 @@
+if not varexist runebookoutput
+overhead "Select a runebook to move TO"
+setvar runebookoutput
+endif
+if findtype 7956 backpack as rune
+    wait 250
+        while not targetexists
+        cast 'Mark'
+        wait 50
+        endwhile
+        wft
+        target rune
+        wait 750
+        while not targetexists
+        cast 'recall'
+        wait 50
+        endwhile
+        wft
+        target myEscapePlan
+        
+        if findtype 'recall rune' backpack 0 -1 -1 as rune
+            lift rune
+        wait 750
+            drop runebookoutput
+        endif
+    endif       
+endif
+
+        if diffmana >= 35 and not cooldown "Mushroom" and findtype "mushroom" backpack as mushy
+            overhead "Eating shrooms" 66
+            dclick mushy
+            wait 250          
+        endif  
+            if mana < 35
+            useskill 'meditation'
+            while mana < 95
+                wait 50
+            endwhile
+             endif  

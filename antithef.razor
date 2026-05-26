@@ -1,0 +1,1253 @@
+#Auto Splitter Reagents, Potions, Bandages, Ropes ver 2.0
+
+#********** INFORMATION **********# 
+
+# Made by @dennozz12 on discord. 
+# Inspired/learned by other scrips in https://outlands.uorazorscripts.com/
+
+# Split your reagents and recall scrolls into groups to prevent thiefs from stealing all at once
+
+# If you like my work and wish to buy me a coffee: https://buymeacoffee.com/dennoz
+
+# Splatter: Added Potions (Greater/Total/Leathal), Bandages and Rope
+
+#********** SET YOUR SETTINGS **********# 
+
+
+#--- Set auto select bag ---#
+# 0 - will let you pick the bag
+# 1 - will auto select in order : satchel > pouch > backpack bag > rounded bag > main backpack
+
+@setvar! autoSelectRegBag 1
+
+#--- Set auto select Potion bag ---#
+# 0 - will let you pick the bag
+# 1 - will auto select in order : Potions satchel > pouch > backpack bag > rounded bag > main backpack
+@setvar! autoSelectPotionBag 1
+
+#--- Set auto select bandage/rope bag ---#
+# 0 - will let you pick the bag
+# 1 - will auto select in order : satchel > pouch > backpack bag > rounded bag > main backpack
+@setvar! autoSelectMiscBag 1
+
+#********** DO NOT EDIT FROM HERE UNLESS YOU KNOW HOW TO SCRIPT **********#
+
+clearignore 
+
+@setvar! amount 0
+@setvar! myRegBag 0
+@setvar! myPotionBag 0
+@setvar! myBandageBag 0
+
+@setvar! maxwaittimeinms 650
+
+if autoSelectRegBag = 1
+    if findtype 30765 self as b
+        @setvar! myRegBag b
+    elseif findtype 3705 self as b
+        @setvar! myRegBag b
+    elseif findtype 3701 self as b
+        @setvar! myRegBag b
+    elseif findtype 3702 self as b
+        @setvar! myRegBag b
+    else 
+        @setvar! myRegBag backpack
+    endif
+else 
+    clearsysmsg
+    overhead "Select bag:" 68
+    @setvar! myRegBag
+    wait 200
+    while not targetexists and not insysmsg "Select"
+        @setvar! myRegBag    
+    endwhile
+    
+    if find myRegBag self
+        getlabel myRegBag bagLabel
+        
+        if "wizard's satchel" in bagLabel or "pouch" in bagLabel or "bag" in bagLabel or "backpack" in bagLabel
+            sysmsg "new bag set" 55
+        else 
+            @setvar! myRegBag 0
+            overhead "That is not a bag" 34
+            sysmsg "That is not a bag" 34
+            stop
+        endif
+    else 
+        overhead "No bag found!" 34
+        stop    
+    endif
+endif
+
+if autoSelectPotionBag = 1
+    if findtype 31262 self as b
+        @setvar! myPotionBag b
+    elseif findtype 3705 self as b
+        @setvar! myPotionBag b
+    elseif findtype 3701 self as b
+        @setvar! myPotionBag b
+    elseif findtype 3702 self as b
+        @setvar! myPotionBag b
+    else 
+        @setvar! myPotionBag backpack
+    endif
+else 
+    clearsysmsg
+    overhead "Select Potion bag:" 68
+    @setvar! myPotionBag
+    wait 200
+    while not targetexists and not insysmsg "Select"
+        @setvar! myPotionBag    
+    endwhile
+    
+    if find myPotionBag self
+        getlabel myPotionBag bagLabel
+        
+        if "alchemists satchel" in bagLabel or "pouch" in bagLabel or "bag" in bagLabel or "backpack" in bagLabel
+            sysmsg "new bag set" 55
+        else 
+            @setvar! myPotionBag 0
+            overhead "That is not a bag" 34
+            sysmsg "That is not a bag" 34
+            stop
+        endif
+    else 
+        overhead "No bag found!" 34
+        stop    
+    endif
+endif
+
+#***** Misc Items  *****
+
+if autoSelectMiscBag = 1
+    if findtype 30765 self as b
+        @setvar! myMiscBag b
+    elseif findtype 3705 self as b
+        @setvar! myMiscBag b
+    elseif findtype 3701 self as b
+        @setvar! myMiscBag b
+    elseif findtype 3702 self as b
+        @setvar! myMiscBag b
+    else 
+        @setvar! myMiscBag backpack
+    endif
+else 
+    clearsysmsg
+    overhead "Select Misc bag:" 68
+    @setvar! myMiscBag
+    wait 200
+    while not targetexists and not insysmsg "Select"
+        @setvar! myMiscBag    
+    endwhile
+    
+    if find myMiscBag self
+        getlabel myMiscBag bagLabel
+        
+        if "wizard's satchel" in bagLabel or "pouch" in bagLabel or "bag" in bagLabel or "backpack" in bagLabel
+            sysmsg "new bag set" 55
+        else 
+            @setvar! myMiscBag 0
+            overhead "That is not a bag" 34
+            sysmsg "That is not a bag" 34
+            stop
+        endif
+    else 
+        overhead "No bag found!" 34
+        stop    
+    endif
+endif
+
+overhead "Splitter Begin.." 55
+
+#***** SPIDER SILK 3981 *****
+
+@setvar! regsID 3981
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting silks.." 0
+        if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** BLACK PEARL 3962 *****
+
+@setvar! regsID 3962
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting pearls.." 11
+             if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** NIGHTSHADE 3976 *****
+
+@setvar! regsID 3976
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting shades.." 66
+         if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** MANDRAKE ROOT 3974 *****
+
+@setvar! regsID 3974
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting roots.." 439
+         if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** SULFUROUS ASH 3980 *****
+
+@setvar! regsID 3980
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting ashes.." 56
+         if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** GINSENG 3973 *****
+
+@setvar! regsID 3973
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting gings.." 149
+         if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** BLOSSMOSS 3963 *****
+
+@setvar! regsID 3963
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting bloods.." 35
+         if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** GARILIC 3972 *****
+
+@setvar! regsID 3972
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting garlics.." 910
+         if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** RECALL SCROLL 8012 *****
+
+@setvar! regsID 8012
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 5
+    @setvar! amount 1
+elseif counttype regsID self <= 10
+    @setvar! amount 5       
+elseif counttype regsID self <= 20
+    @setvar! amount 10    
+elseif counttype regsID self <= 40
+    @setvar! amount 20    
+else 
+    @setvar! amount 30
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    if moveRegs = 1    
+        overhead "splitting scrolls.." 0
+         if index = 0
+            lift regs amount
+            drop myRegBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myRegBag 68 65 0           
+        else
+            lift regs amount
+            drop myRegBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+endwhile
+
+#***** Greater Heal 3852 *****
+
+@setvar! regsID 3852
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myRegBag
+        @setvar! moveRegs 1
+    endif
+    if moveRegs = 1   
+        overhead "splitting Greater Heal.." 48
+         if index = 0
+            lift regs amount
+            drop myPotionBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myPotionBag 68 65 0           
+        else
+            lift regs amount
+            drop myPotionBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** Greater Cure 3847 *****
+
+@setvar! regsID 3847
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myPotionBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Greater Cure.." 44
+        if index = 0
+            lift regs amount
+            drop myPotionBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myPotionBag 68 65 0           
+                   else
+            lift regs amount
+            drop myPotionBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** Greater Agility 3848 *****
+
+@setvar! regsID 3848
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myPotionBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Greater Agility.." 93
+        if index = 0
+            lift regs amount
+            drop myPotionBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myPotionBag 68 65 0           
+                   else
+            lift regs amount
+            drop myPotionBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** Total Refresh 3851 *****
+
+@setvar! regsID 3851
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myPotionBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Total Refresh.." 38
+        if index = 0
+            lift regs amount
+            drop myPotionBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myPotionBag 68 65 0           
+                   else
+            lift regs amount
+            drop myPotionBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** Greater Magic Resist 3846 *****
+
+@setvar! regsID 3846
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myPotionBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Greater Magic Resist.." 897
+        if index = 0
+            lift regs amount
+            drop myPotionBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myPotionBag 68 65 0           
+                   else
+            lift regs amount
+            drop myPotionBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** Greater Strength 3849 *****
+
+@setvar! regsID 3849
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myPotionBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Greater Strength.." 2041
+        if index = 0
+            lift regs amount
+            drop myPotionBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myPotionBag 68 65 0           
+                   else
+            lift regs amount
+            drop myPotionBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** Greater Explode 3853 *****
+
+@setvar! regsID 3853
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myPotionBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Greater Explode.." 1275
+        if index = 0
+            lift regs amount
+            drop myPotionBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myPotionBag 68 65 0           
+                   else
+            lift regs amount
+            drop myPotionBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** Lethal Poison 3850 *****
+
+@setvar! regsID 3850
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myPotionBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Lethal Poison.." 1267
+        if index = 0
+            lift regs amount
+            drop myPotionBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myPotionBag 68 65 0           
+        else
+            lift regs amount
+            drop myPotionBag 96 65 0         
+        endif
+    endif
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+endwhile
+
+#***** Bandages 3617 *****
+
+@setvar! regsID 3617
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myMiscBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Bandages.." 0
+        if index = 0
+            lift regs amount
+            drop myMiscBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myMiscBag 68 65 0           
+        else
+            lift regs amount
+            drop myMiscBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+
+#***** Rope 5370 *****
+
+@setvar! regsID 5370
+@setvar! myCounter 0
+
+while findtype regsID self as r 
+    @setvar! myCounter index
+    @ignore r
+endwhile
+@clearignore
+
+if counttype regsID self <= 10
+    @setvar! amount 5
+elseif counttype regsID self <= 20
+    @setvar! amount 10       
+elseif counttype regsID self <= 50
+    @setvar! amount 25    
+elseif counttype regsID self <= 100
+    @setvar! amount 50    
+elseif counttype regsID self <= 150
+    @setvar! amount 75
+elseif counttype regsID self <= 200
+    @setvar! amount 100
+else 
+    @setvar! amount 150
+endif
+
+while findtype regsID self as regs
+    @setvar! moveRegs 0 
+    
+    if myCounter = 0
+        @setvar! moveRegs 1
+    elseif myCounter != 0 and not find regs myMiscBag
+        @setvar! moveRegs 1
+    endif
+    
+    if moveRegs = 1    
+        overhead "splitting Rope.." 360
+        if index = 0
+            lift regs amount
+            drop myMiscBag 44 65 0      
+        elseif index = 1
+            lift regs amount
+            drop myMiscBag 68 65 0           
+        else
+            lift regs amount
+            drop myMiscBag 96 65 0         
+        endif
+    endif
+    
+    @ignore regs 
+    
+    if moveRegs = 1
+        wait maxwaittimeinms
+    endif
+
+endwhile
+overhead "Splitter completed" 0

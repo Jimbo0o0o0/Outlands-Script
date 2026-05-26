@@ -1,0 +1,53 @@
+####
+#Find a non empty pouch move it and doubleclick it move items to your lootbag
+#
+####
+@clearignore 
+# pouch a ignorer
+overhead "Set new lootbag"
+@setvar! jootbag
+@ignore jootbag
+
+while findtype 3705 backpack 38 as found_pouch
+    getlabel found_pouch description
+
+    if "(0 items, 0 stones)" in description 
+        @ignore found_pouch
+    else
+        overhead "FOUND NOT EMPTY traped POUCH" 53
+        lift found_pouch 
+        wait 100
+        drop backpack 100 100 
+        wait 100
+        dclick found_pouch  
+      wait 675  
+	  while findtype 12686|11858|51098 found_pouch as item
+	   lift item 60000
+        drop jootbag -1 -1 -1
+        wait 675
+		@ignore found_pouch
+		endwhile
+    endif
+endwhile
+
+while findtype 3705 backpack 0 as found_pouch
+    getlabel found_pouch description
+
+    if "(0 items, 0 stones)" in description 
+        @ignore found_pouch
+    else
+        overhead "FOUND NOT EMPTY POUCH" 53
+        lift found_pouch 
+        wait 100
+        drop backpack 100 100 
+        wait 100
+        dclick found_pouch  
+      wait 675  
+	  while findtype 12686|11858|51098 found_pouch as item
+	   lift item 60000
+        drop jootbag -1 -1 -1
+        wait 675
+		@ignore found_pouch
+		endwhile
+    endif
+endwhile
