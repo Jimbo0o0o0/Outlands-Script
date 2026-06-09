@@ -165,22 +165,27 @@
 
 
 //-----------------------------------------------------------------------------------------------------------//
-#Books and Tomes - all IDs: 3834|6238|8786|8787|8901|11881|11882|11883|11884|11885|11886|11887|11888|11889|11890|11891|11893|11895|29103|29104|29105|41471|42516|45340|45823
+#Books and Tomes - all IDs: 3834|6238|8786|8787|8901|11881|11882|11883|11884|11885|11886|11887|11888|11889|11890|11891|11893|11895|11896|11897|11898|11902|11903|19814|29103|29104|29105|41471|42516|45340|45823
 
     #a checkbook [blessed] "checkbook" 45823
     #book of chivalry [blessed] "paladin spellbook" 8786
     #book of grudges [blessed] "book" 45340 (hue 2261)
     #book of grifts [blessed] "book" 45340 (hue 2207)
     #book of necromancy [blessed] "necromancer book" 8787 
-    #Codex - all IDs 11884|11885|11886|11887|11888|11889|11890|11891|11893|11895
+    #Codex - all IDs 11884|11885|11886|11887|11888|11889|11890|11891|11893|11895|11896|11897|11898|11902|11903
         #a blessed arcane codex "arcane codex" 11893
         #bard codex "bard codex" 11884
         #codex of archery "archery codex" 11886
+        #codex of dual wielding "dual wield codex" 11902
         #codex of fencing "fencing codex" 11887
+        #codex of fishing "mariners codex" 11896
         #codex of macing "macing codex" 11888
         #codex of parrying "shield codex" 11889
         #codex of swords "sword codex" 11890
+        #codex of throwing "throwing codex" 11903
         #codex of wrestling "wrestling codex" 11891
+        #healer's codex ' "healers codex" 11897
+        #potion codex "potion codex" 11898
         #thieves codex "thief codex" 11885
         #time dungeon codex "Time codex" 11895
     #lore book "book" 29105
@@ -208,6 +213,7 @@
     #summoner's tome ' "summoners tome" 11882
     #taming bestiary "taming bestiary" 11881
     #tome of heroism "book" 41471
+    #trap kit "trap kit" 19814    
     #wizard's grimoire ' "wizards grimoire" 11883
 
 //-----------------------------------------------------------------------------------------------------------//
@@ -260,9 +266,9 @@
         #shaft commodity "crate" 19255
 
 //-----------------------------------------------------------------------------------------------------------//
-#Containers (a lot of them have two IDs, depending on their rotation) - all IDs: 2472|2473|2474|2475|2637|2639|2641|2643|2717|3644|3645|3646|3647|3648|3649|3650|3651|3701|3702|3705|3708|3709|3710|3712|4263|4266|11468|11473|11761|12215|18282|18283|24246|29077|29078|29086|29087|29832|29833|30765|41449|41450|41451|41452|41453|41454|41455|41456|41464
+#Containers (a lot of them have two IDs, depending on their rotation) - all IDs: 2472|2473|2474|2475|2637|2639|2641|2643|2717|3644|3645|3646|3647|3648|3649|3650|3651|3701|3702|3705|3708|3709|3710|3712|4263|4266|11468|11473|11761|12215|18282|18283|24246|29077|29078|29086|29087|29832|29833|30765|41449|41450|41451|41452|41453|41454|41455|41456|41464|57514|57519
 
-    #a magic item vault "magic item chest" 11468|11473
+    #a magic item vault "magic item chest|sm magic item vault" 11468|11473|57514|57519
     #a prevalia trunk "rares chest" 4263|4266
     #a storage locker "nightstand" 41464
     #a storage shelf "storage shelf" 18282|18283  
@@ -428,7 +434,8 @@
 
 //-----------------------------------------------------------------------------------------------------------//
 #Hues
-    #Aspect
+    #Aspect Hues
+        #Agorawave 4221
         #Air 2263
         #Arcane 1560
         #Artisan 2096
@@ -449,10 +456,11 @@
         #Madness 1060
         #Poison 2897
         #Shadow: Armor/Weapon 1790 | Cores 1757
+        #Temporal: 4211
         #Void: Armor/Weapon/Dist. 2599 | Cores/Phylact. 2582
         #Water: Armor/Weapon 1788 | Cores 2592
         #War 2503
-    #Material types
+    #Material Type Hues
         #Leather/Board and log/Iron            0
         #Dullhide/Dullwood/Dull Copper      2419
         #Shadowhide/Shadowwood/Shadow Iron  2406
@@ -958,7 +966,7 @@
     #survival gear "dig tools" 37181
 
 //-----------------------------------------------------------------------------------------------------------//
-#Weapons, Arcane Staffs, Spellbook, Wands, Instruments and Shields - all IDs: 3568|3570|3571|3572|3573|3713|3719|3721|3740|3742|3762|3763|3834|3909|3911|3913|3915|3917|3920|3922|3932|3934|3937|3938|5040|5042|5044|5046|5049|5112|5115|5117|5119|5121|5123|5125|5127|5177|5179|5181|5182|5185|5187|7026|7027|7029|7031|7033|7034|7035|7107|7109|10245|20006|20008|20010|20012|20014|20016|22187|30988|30989|30990|30991|30992|30993|30994|30995|30996|30997|30998|30999|31000|31001|31002|31014|31017|31019|31021|31023|31025|31027|31029|31031|31033|31035|31037|31038|31041|31043|31045|31047|31049|31051|31053|31055|31128|31130|31141|31142|31176|31178|31180|31182|31184|31186|31188|31190
+#Weapons, Arcane Staffs, Spellbook, Wands, Instruments and Shields - all IDs: "3568|3570|3571|3572|3573|3713|3719|3721|3740|3742|3762|3763|3834|3909|3911|3913|3915|3917|3920|3922|3932|3934|3937|3938|5040|5042|5044|5046|5049|5112|5115|5117|5119|5121|5123|5125|5127|5177|5179|5181|5182|5185|5187|7026|7027|7029|7031|7033|7034|7035|7107|7109|10245|20006|20008|20010|20012|20014|20016|22187|30988|30989|30990|30991|30992|30993|30994|30995|30996|30997|30998|30999|31000|31001|31002|31014|31017|31019|31021|31023|31025|31027|31029|31031|31033|31035|31037|31038|31041|31043|31045|31047|31049|31051|31053|31055|31128|31130|31141|31142|31176|31178|31180|31182|31184|31186|31188|31190|chakram|francisca|hurlbat|javelin|throwing knife|throwing star|dual wield tracker knife|duel wield katana|dual wield norse axe|dual wield rapier|dual wield sabre|dual wield scimitar"
 
     #Arcane Staffs - all IDs: 31017|31019|31021|31023|31025|31027|31029|31031|31033|31035|31037|31038|31041|31043|31045|31047|31049|31051|31053|31055
         #abyssal staff "abyssal staff" 31053
@@ -992,6 +1000,15 @@
         #pistol crossbow "stubnose crossbow" 31184
         #pistol crossbow "tower guard crossbow" 31186
         #recurve bow "recurve bow" 30995
+
+    #Dual Wielding - all IDs: 67773|67774|67775|67776|67777|67778
+    #              - all names: "dual wield tracker knife|duel wield katana|dual wield norse axe|dual wield rapier|dual wield sabre|dual wield scimitar"
+        #dual hunting knives "dual wield tracker knife" 67778
+        #dual katanas "duel wield katana" 67773
+        #dual norse axes "dual wield norse axe" 67774
+        #dual rapiers "dual wield rapier" 67775
+        #dual sabres "dual wield sabre" 67776
+        #dual scimitars "dual wield scimitar" 67777
 
     #Fencing - all IDs: 3719|3922|3938|5121|5123|5125|30989|30992|30996|30997|30998|31176|31188
         #assassin's knife ' "assassins dagger" 30996
@@ -1079,11 +1096,22 @@
         #viking sword "viking sword" 5049
         #zweihander "zweihander" 30988
 
-    #Training weapons - all IDs: 5042|5044|5049|5121
+    #Throwing - all IDs: 67713|67723|67734|67744|67754|67764
+    #         - all names: "chakram|francisca|hurlbat|javelin|throwing knife|throwing star"
+        #chakram "chakram" 67713
+        #francisca axe "francisca" 67723
+        #hurlbat "hurlbat" 67734
+        #javelin "javelin" 67744
+        #throwing dagger "throwing knife" 67754
+        #throwing star "throwing star" 67764
+
+    #Training weapons - all IDs: 5042|5044|5049|5121|67754|67778
+        #training throwing dagger "throwing knife" 67754 (hue 2417)
         #wooden training kryss "kryss" 5121 (hue 2417)
         #wooden training sword "viking sword" 5049 (hue 2417)
         #wooden training club "club" 5044 (hue 2417)
         #wooden training bow "bow" 5042 (hue 2417)
+        #wooden training dual knives "dual wield tracker knife" 67778 (hue 2417)
 
     #Wrestling - all IDs: 22187|31141|31142
         #cestus "caesti" 31141

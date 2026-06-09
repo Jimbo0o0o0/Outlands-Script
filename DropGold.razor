@@ -1,17 +1,19 @@
-
-@clearignore
+@setvar! golddamount 2000
 while weight > maxweight
-    if findtype "gold coin" backpack as item
-        lift item 2000
-        if findtype 'gold coin' ground -1 -1 2 as GroundCoin
-            drop 'GroundCoin' -1 -1 1
-        else
-            droprelloc 0 0
-        endif
-        if insysmsg  "You cannot place items on the ground in this location." and findtype 8198 ground -1 -1 2 as jorpse
-            overhead "Dropping: {{desc}}" 88 jorpse
-            drop jorpse  
-        endif
+    if findtype 8198 ground -1 -1 2 as corpse
+        @drop backpack
+        lifttype 'gold coin' golddamount
+        drop corpse
+        wait 500
+    elseif findtype 'gold coin' ground -1 -1 2 as GroundCoin
+        @drop backpack
+        lifttype 'gold coin' golddamount
+        drop Groundcoin
+        wait 500
+    else
+        @drop backpack
+        lifttype 'gold coin' golddamount
+        droprelloc 0 0
+        wait 500
     endif
-    clearall
 endwhile
