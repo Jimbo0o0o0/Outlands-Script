@@ -1,4 +1,4 @@
-#Auto-mage attack 3.17.5
+#Auto-mage attack 3.17.9
 
 #********** INFORMATION **********# 
 
@@ -19,16 +19,11 @@
 ### Changes Log ###
 
 # ** IF SCRIPT IS ATTACKING OR HEALING MAY EXPERIENCE ISSUE AFTER WORLD SAVING ** #
-# added Vampiric at the end 
-# Added Meditation at the end
-# Added Pain spike 
-# Added Vampiric embrance 
-# Fixed BloodOath
-# added check for pot and meditation
 
- #todo improve summoning while low mana
-#todo convert air tu energy spirit
-
+# Ver 3.17.9 Reset target variables on script start (fixes not attacking after switching from another script)
+# Ver 3.17.8 Fixed magic reflect and reactive armor recast spam when spell is on cooldown
+# Ver 3.17.7 Fixed infinite loop on target label correction
+# Ver 3.17.6 Fixes to necromancy abilities casting bugs (poison targeting, summon loop flag reset, stuck ability loops)
 # Ver 3.17.5 Minor fixes
 # Ver 3.17.4 Added panacea ability for alchemy skill
 # Ver 3.17.3 Fixed when meditation is set to 0, script was stopping when mana < 50
@@ -119,14 +114,14 @@ pushlist animalsIgnoreList "a spirit wolf"
 pushlist animalsIgnoreList "a spirit sabertus"
 pushlist animalsIgnoreList "a death asp"
 pushlist animalsIgnoreList "a death adder"
-pushlist animalsIgnoreList "a giant sandroach"
+
 #--- Set Target Mode ---#
 
 # 0 - Auto Target Selection 
 # 1 - Auto Target Selection in warmode only (while warmode = on then will auto attack)
 # 2 - Manual selection using hotkey `set last target`
 
-@setvar! targetSelectionMode 1
+@setvar! targetSelectionMode 0
 @setvar! switchTargetWhenToggleWarMode 1
 
 #--- Set Auto Trap Pouches ---#
@@ -139,7 +134,7 @@ pushlist animalsIgnoreList "a giant sandroach"
 
 @setvar! castMagicArrow 1
 @setvar! castHarm 1
-@setvar! castFireball 0
+@setvar! castFireball 1
 @setvar! castLightning 1
 
 @setvar! activateMagicArrowWhenManaBelow 200
@@ -149,10 +144,10 @@ pushlist animalsIgnoreList "a giant sandroach"
 
 #--- Set Mage attack cooldowns ---#
 
-@setvar! magicArrowCD 20000
-@setvar! harmCD 20000
-@setvar! fireballCD 60000
-@setvar! lightningCD 20000
+@setvar! magicArrowCD 16000
+@setvar! harmCD 16000
+@setvar! fireballCD 16000
+@setvar! lightningCD 16000
 
 #--- Big Spells prioritize order ---#
 
@@ -161,7 +156,7 @@ pushlist animalsIgnoreList "a giant sandroach"
 @setvar! castExplosion 0
 @setvar! castMindblast 1
 
-@setvar! minimumManaToCastBigSpellsOnly 16
+@setvar! minimumManaToCastBigSpellsOnly 11
 
 #--- Set Mage auto heals ---#
 
@@ -174,33 +169,28 @@ pushlist animalsIgnoreList "a giant sandroach"
 @setvar! magicReflect 1
 @setvar! blessSpell 1
 @setvar! armorReflect 1
-@setvar! protectionSpell 0
-@setvar! archProtectionSpell 1
+@setvar! protectionSpell 1
+@setvar! archProtectionSpell 0
 
 @setvar! miniumManaToBuff 50
 
 #--- Set DeBuff Spells ---#
 
 @setvar! castCurse 1
-@setvar! castManaDrain 0
+@setvar! castManaDrain 1
 
 #--- Set Damage Necromancy Spells ---#
 
-@setvar! NecroMindRot 0
-@setvar! NecroEvilOmen 0
-@setvar! NecroCorpseSkin 0
+@setvar! NecroMindRot 1
+@setvar! NecroEvilOmen 1
+@setvar! NecroCorpseSkin 1
 @setvar! NecroStrangle 0
-
-#--- Set Damage Necromancy Other ---#
-
-@setvar! Necrovampirice 1
-@setvar! Necropainspike 0
 
 @setvar! minManaToUseDamageBuffNecroSpells 50
 
 #--- Poison ---#
 
-@setvar! castPoison 0
+@setvar! castPoison 1
 
 #- Poison Level
 # 0 - Greater or lesser 
@@ -233,25 +223,25 @@ pushlist animalsIgnoreList "a giant sandroach"
 
 #--- Set Elementals Count ---#
 
-@setvar! earthElementals 0
+@setvar! earthElementals 2
 @setvar! waterElementals 0
 @setvar! airElementals 0
 @setvar! fireElementals 0
-@setvar! summonDaemons 2
-@setvar! summonCreature 1
+@setvar! summonDaemons 0
+@setvar! summonCreature 0
 
 @setvar! breakCastingWhenFollowersBelow 4
 
 #--- Set Followers Necromancy Spells ---#
 
-@setvar! NecroVengefulSpirit 1
-@setvar! NecroBloodOath 1
+@setvar! NecroVengefulSpirit 0
+@setvar! NecroBloodOath 0
 @setvar! NecroWither 0
 
 #--- Set mushrooms ---#
 
 @setvar! mushroomCount 3
-@setvar! eatMushWhenManaLowerThan 60
+@setvar! eatMushWhenManaLowerThan 50
 @setvar! mushroomTimerCD 60000
 
 #--- Set potions ---#
@@ -276,14 +266,14 @@ pushlist animalsIgnoreList "a giant sandroach"
 #--- All variables refer to hit points differences ---#
 #--- When below certain hit points it will trigger ---#
 
-@setvar! activateAutoHealDiff 35
-// 50
+@setvar! activateAutoHealDiff 30
+
 @setvar! startCastMiniHealDiff 50
 @setvar! endCastMiniHealDiff 200
- // 50
+
 @setvar! castEmergencyMiniHealDiff 50
- // 50
- @setvar! startCastGreaterHealDiff 30
+
+@setvar! startCastGreaterHealDiff 30
 @setvar! endCastGreaterHealDiff 200
 
 @setvar! drinkHealPotDiff 30
@@ -293,8 +283,8 @@ pushlist animalsIgnoreList "a giant sandroach"
 #--- Meditation ---#
 
 @setvar! useMeditationSkill 1
-@setvar! meditateWhenManaBelow 50
-@setvar! meditateUntilManaReach 80
+@setvar! meditateWhenManaBelow 44
+@setvar! meditateUntilManaReach 75
 
 @setvar! lowManaWarningMessageWhenBelow 40
 
@@ -304,15 +294,15 @@ pushlist animalsIgnoreList "a giant sandroach"
 # 3 - Soulfire
 
 @setvar! useWeaponAbility 0
-@setvar! useAbilityWhenManaLowerThan 60
+@setvar useAbilityWhenManaLowerThan 60
 
 #--- Drop Gold When Overweight ---#
 
-@setvar! amountOfGoldToDrop 1000
+@setvar! amountOfGoldToDrop 500
 
 #--- Carve Corpse ---#
 
-@setvar! autoCarveNearestCorpse 0
+@setvar! autoCarveNearestCorpse 1
 
 #********** DO NOT EDIT FROM HERE UNLESS YOU KNOW HOW TO SCRIPT **********# 
 
@@ -331,11 +321,9 @@ if castExplosion = 1 or castFlamestrike = 1 or castEnergyBolt = 1 or castMindbla
     @setvar! castingBigSpellsEnabled 1    
 endif
 
-if 2 = targetSelectionMode
-    @setvar! currentTarget 0 
-    @setvar! foundTarget 0 
-    @setvar! tempTarget 0 
-endif
+@setvar! currentTarget 0
+@setvar! foundTarget 0
+@setvar! tempTarget 0
 
 @setvar! necroGump 622436516
 @setvar! unholyPoints 0
@@ -350,7 +338,10 @@ if not varexist previousTarget
     @setvar! previousTarget 0
 endif
 
-@setvar! maxwaittimeinms 675
+@setvar! maxwaittimeinms 650
+
+# Give up correcting a target label after this many ms (stops infinite loop)
+@setvar! labelFixTimeoutCD 2000
 
 if not timerexists mushroomTimer
     settimer mushroomTimer mushroomTimerCD
@@ -370,6 +361,9 @@ endif
 #--- Necro spells timers ---#
 
 @setvar! necroMarginErrorCD 28000
+
+# Give up on a necro ability after this many ms with no success/cooldown response (stops infinite loop)
+@setvar! necroAbilityTimeoutCD 5000
 
 @setvar! vengefulSpiritCD 30000
 
@@ -411,18 +405,6 @@ endif
 
 if not timerexists mindRotTimer
     settimer mindRotTimer mindRotCD
-endif
-
-@setvar! painspikeCD 35000
-
-if not timerexists painspikeTimer
-    settimer painspikeTimer painspikeCD
-endif
-
-@setvar! vampiriceCD 35000
-
-if not timerexists vampiriceTimer
-    settimer vampiriceTimer vampiriceCD
 endif
 
 @setvar! poisonStrikeCD 30000
@@ -706,7 +688,7 @@ endif
 
 if not varexist fireSecondly or followers = 0
     @setvar! fireSecondly 0
-endif    
+endif
 
 if not varexist daemonFirsty or followers = 0
     @setvar! daemonFirsty 0
@@ -852,86 +834,86 @@ while not dead
         settimer allGuardTimer 0
     endif
     
-        if not findbuff "food" 
-            if findtype "tray" backpack as fody    
-                dclick fody
-                wait 200
-            else 
-                if timer foodMessageTimer > foodMessageCD
-                    overhead "No food found!" 34
-                    settimer foodMessageTimer 0
-                endif
+    if not findbuff "food" 
+        if findtype "tray" backpack as fody    
+            dclick fody
+            wait 200
+        else 
+            if timer foodMessageTimer > foodMessageCD
+                overhead "No food found!" 34
+                settimer foodMessageTimer 0
             endif
         endif
-        
-        #--- Drink str pot ---#
-        
-        if drinkStr = 1 and str < strengthLowerThan
-            if not findbuff "Strength" 
-                if findtype "White Potion" self
-                    dclicktype "White Potion"
-                    wait 200
-                else
-                    if timer whiteMessageTimer > whiteMessageCD
-                        overhead "Out of str pots" 34
-                        settimer whiteMessageTimer 0 
-                    endif
-                endif
-            endif
-        endif
-        
-        #--- Drink agility pot ---#
-        
-        if drinkAgility = 1
-            if not findbuff "Agility" 
-                if findtype "Blue Potion" self
-                    dclicktype "Blue Potion"
-                    sysmsg "agility pot" 86
-                    wait 200
-                else
-                    if timer blueMessageTimer > blueMessageCD
-                        overhead "Out of agility pots" 34
-                        settimer blueMessageTimer 0 
-                    endif
-                endif
-            endif
-        endif
-            
-        #--- Drink magic resist pot ---#
+    endif
     
-        if drinkMagicResist = 1
-            if not findbuff "Magic Resist" 
-                if findtype "Black Potion" self
-                    dclicktype "Black Potion"
-                    sysmsg "magic resist pot" 111
-                    wait 200
-                else
-                    if timer blackMessageTimer > blackMessageCD
-                        overhead "Out of resist pots" 34
-                        settimer blackMessageTimer 0
-                    endif
-                endif
-            endif
-        endif
-        
-        #--- Drink red pot ---#
-        
-        if diffstam > drinkWhenMissingStamina and 1 = drinkRefresh
-            if findtype "Red Potion" self
-                dclicktype "Red Potion"
-                sysmsg "refresh pot" 36
+    #--- Drink str pot ---#
+    
+    if drinkStr = 1 and str < strengthLowerThan
+        if not findbuff "Strength" 
+            if findtype "White Potion" self
+                dclicktype "White Potion"
                 wait 200
             else
-                if timer redMessageTimer > redMessageCD
-                    overhead "Out of refresh pots" 34
-                    settimer redMessageTimer 0 
+                if timer whiteMessageTimer > whiteMessageCD
+                    overhead "Out of str pots" 34
+                    settimer whiteMessageTimer 0 
+                endif
+            endif
+        endif
+    endif
+    
+    #--- Drink agility pot ---#
+    
+    if drinkAgility = 1
+        if not findbuff "Agility" 
+            if findtype "Blue Potion" self
+                dclicktype "Blue Potion"
+                sysmsg "agility pot" 86
+                wait 200
+            else
+                if timer blueMessageTimer > blueMessageCD
+                    overhead "Out of agility pots" 34
+                    settimer blueMessageTimer 0 
+                endif
+            endif
+        endif
+    endif
+        
+    #--- Drink magic resist pot ---#
+
+    if drinkMagicResist = 1
+        if not findbuff "Magic Resist" 
+            if findtype "Black Potion" self
+                dclicktype "Black Potion"
+                sysmsg "magic resist pot" 111
+                wait 200
+            else
+                if timer blackMessageTimer > blackMessageCD
+                    overhead "Out of resist pots" 34
+                    settimer blackMessageTimer 0
+                endif
+            endif
+        endif
+    endif
+    
+    #--- Drink red pot ---#
+    
+    if diffstam > drinkWhenMissingStamina and 1 = drinkRefresh
+        if findtype "Red Potion" self
+            dclicktype "Red Potion"
+            sysmsg "refresh pot" 36
+            wait 200
+        else
+            if timer redMessageTimer > redMessageCD
+                overhead "Out of refresh pots" 34
+                settimer redMessageTimer 0 
             endif
         endif
     endif
 
 #********** AUTO HEALING START  **********#         
 
-    while diffhits >= drinkHealPotDiff or diffhits >= startCastMiniHealDiff or diffhits >= castEmergencyMiniHealDiff or diffhits >= startCastGreaterHealDiff or paralyzed or poisoned
+    while diffhits >= activateAutoHealDiff or paralyzed or poisoned
         if dead
             stop
         endif
@@ -953,26 +935,7 @@ while not dead
         endif
         
         sysmsg "auto-healing" 88      
-            #--- Drink Heal Pot ---#
-                       
-            if diffhits >= drinkHealPotDiff and 1 = drinkHeal
-            if findtype "Yellow Potion" self as hPot
-                getlabel hPot potLabel
-                if "(" in potLabel
-                else
-                    dclicktype 3852
-                    getlabel backpack xxx
-                    sysmsg "heal pot" 55
-                endif
-            else
-                if timer yellowMessageTimer > yellowMessageCD
-                    overhead "Out of heals pots" 34
-                    settimer yellowMessageTimer 0
-                endif
-            endif
-        endif
-        
-        
+    
         if not findbuff "food" 
             if findtype "tray" backpack as fody    
                 dclick fody
@@ -1049,7 +1012,7 @@ while not dead
                     dclicktype 'clean bandage%s%'
                     waitfortarget maxwaittimeinms
                     target 'self'
-                    wait 200            
+                    wait 200
                     if bandaging
                         sysmsg "bandage applied" 22
                     endif
@@ -1126,7 +1089,7 @@ while not dead
                 endif
             endif
         endif
-            
+        
         #--- Poisoned ---#
         
         if 1 = drinkCure or 1 = cureSpell
@@ -1166,6 +1129,25 @@ while not dead
                     endif
                 endif
             endwhile
+        endif
+            
+        #--- Drink Heal Pot ---#
+    
+        if diffhits >= drinkHealPotDiff and 1 = drinkHeal
+            if findtype "Yellow Potion" self as hPot
+                getlabel hPot potLabel
+                if "(" in potLabel
+                else
+                    dclicktype 3852
+                    getlabel backpack xxx
+                    sysmsg "heal pot" 55
+                endif
+            else
+                if timer yellowMessageTimer > yellowMessageCD
+                    overhead "Out of heals pots" 34
+                    settimer yellowMessageTimer 0
+                endif
+            endif
         endif
             
         #--- Cast heals ---#
@@ -1261,24 +1243,24 @@ while not dead
                         endwhile
                     endif            
                 
-                    #--- Drink Heal Pot ---#
-                    
-                    #if diffhits >= drinkHealPotDiff and 1 = drinkHeal and not targetexists
-#                        if findtype "Yellow Potion" self as hPot
-#                            getlabel hPot potLabel
-#                        if "(" in potLabel
-#                            else
-#                                dclicktype 3852
-#                            sysmsg "heal pot" 55
-#                                getlabel backpack xxx
-#                            endif
-#                        else
-#                            if timer yellowMessageTimer > yellowMessageCD
-#                                overhead "Out of heals pots" 34
-#                                settimer yellowMessageTimer 0
-#                            endif
-#                        endif
-#                    endif
+                #--- Drink Heal Pot ---#
+                
+                if diffhits >= drinkHealPotDiff and 1 = drinkHeal and casting and not targetexists
+                    if findtype "Yellow Potion" self as hPot
+                        getlabel hPot potLabel
+                        if "(" in potLabel
+                        else
+                            dclicktype 3852
+                            sysmsg "heal pot" 55
+                            getlabel backpack xxx
+                        endif
+                    else
+                        if timer yellowMessageTimer > yellowMessageCD
+                            overhead "Out of heals pots" 34
+                            settimer yellowMessageTimer 0
+                        endif
+                    endif
+                endif
                     
                 endif
             endwhile
@@ -1303,7 +1285,7 @@ while not dead
     
     #--- Eat Mushroom ---# 
 
-    if mana < eatMushWhenManaLowerThan and mushroomCount > 0 and timer mushroomTimer > mushroomTimerCD and not findbuff "Magic Mushroom Cooldown"
+    if mana < eatMushWhenManaLowerThan and mushroomCount > 0 and timer mushroomTimer > mushroomTimerCD
         if counttype 29012 backpack
             if insysmsg "You consume a magic mushroom"
             endif
@@ -1328,12 +1310,14 @@ while not dead
         endif
         if insysmsg "that spell is already"
         endif
+        if insysmsg "before you may cast that again"
+        endif
         sysmsg "magic reflect" 11
         cast 'Magic Reflection'
         while not casting 
             getlabel backpack xxx
             wait 200
-            if insysmsg "that spell will not" or insysmsg "that spell is already"
+            if insysmsg "that spell will not" or insysmsg "that spell is already" or insysmsg "before you may cast that again"
                 settimer magicReflectTimer 0
                 break  
             endif
@@ -1347,9 +1331,9 @@ while not dead
             if diffhits >= interruptCastingDiff
                 interrupt
                 @setvar! castingInterrupted 1 
-                        break
-                    endif
-                endwhile
+                break
+            endif   
+        endwhile
         wait 200  
   
     endif
@@ -1359,12 +1343,14 @@ while not dead
         endif
         if insysmsg "that spell is already"
         endif
+        if insysmsg "before you may cast that again"
+        endif
         sysmsg "reflect armor" 11
         cast 'Reactive Armor'
         while not casting   
             getlabel backpack xxx
             wait 200
-            if insysmsg "that spell will not" or insysmsg "that spell is already"
+            if insysmsg "that spell will not" or insysmsg "that spell is already" or insysmsg "before you may cast that again"
                 settimer armorReflectTimer 0
                 break  
             endif
@@ -1396,12 +1382,12 @@ while not dead
     
     if archProtectionSpell = 1 and skill 'magery' >= 60 and not findbuff "Protection" and mana >= miniumManaToBuff and diffhits < activateAutoHealDiff and findtype 3980 self and findtype 3972 self and findtype 3973 self  and findtype 3974 self and not find currentTarget ground -1 -1 12
         sysmsg "arch protect" 11
-        cast 'Arch Protection'
-        while not casting
+        cast 'Arch Protection'         
+        while not casting                  
             if targetexists
                 hotkey 'cancel current target'
             endif
-            cast 'Arch Protection'
+            cast 'Arch Protection' 
             wait 50
         endwhile  
         
@@ -1458,7 +1444,7 @@ while not dead
             endif 
             wait 200
         endwhile
-    endif  
+    endif
     
 #********** START AUTO SUMMONING **********# 
 
@@ -1561,7 +1547,7 @@ while not dead
         
         #--- Eat Mushroom ---#
      
-        if mana < eatMushWhenManaLowerThan and mushroomCount > 0 and timer mushroomTimer > mushroomTimerCD and not findbuff "Magic Mushroom Cooldown"
+        if mana < eatMushWhenManaLowerThan and mushroomCount > 0 and timer mushroomTimer > mushroomTimerCD
             if counttype 29012 backpack
                 if insysmsg "You consume a magic mushroom"
                 endif
@@ -1580,7 +1566,9 @@ while not dead
         
         #--- Use Meditation ---#
         
-        if 1 = useMeditationSkill and mana < 50 and not findbuff "meditating" and timer meditationTimer > meditationCD and not cooldown "Move" and not queued
+        if 0 = useMeditationSkill and mana < 50 
+            break
+        elseif 1 = useMeditationSkill and mana < 50 and not findbuff "meditating" and timer meditationTimer > meditationCD
             if insysmsg "you are at peace"
             endif
             if insysmsg "you enter a meditative trance"
@@ -1594,15 +1582,15 @@ while not dead
             if not findbuff 'meditating'
                 settimer meditationTimer 7500
             elseif findbuff 'meditating'
-                //   warmode on
-            //   warmode off
+                warmode on
+                warmode off
                 settimer meditationTimer 0
                 while mana < 50 and diffhits < activateAutoHealDiff
-                    if not findbuff 'meditating' 
+                    if not findbuff 'meditating'
                         break
                     endif
                     if timer meditationMessageTimer > meditationMessageCD
-                        overhead "* meditating *" 11
+                        overhead "* actively meditating *" 11
                         settimer meditationMessageTimer 0
                     endif
                 endwhile
@@ -1664,10 +1652,7 @@ while not dead
             endwhile
             @clearignore
             @setvar! castingWater 0
-        #
-        # Convert to energy spirit 
-        # 13|391
-        #
+            
         elseif 1 = castingAir and followers > 1
             sysmsg "fixing air" 44
             while findtype 306|13 ground -1 -1 12 as ele 
@@ -1721,7 +1706,7 @@ while not dead
             endwhile
             @clearignore
             @setvar! castingFire 0
-
+            
         elseif 1 = castingDaemon and followers > 1
             sysmsg "fixing daemon" 44
             while findtype 9|722 ground -1 -1 12 as ele 
@@ -1851,7 +1836,7 @@ while not dead
             endif 
             @setvar! fireSecondly 0
         endif
-
+            
         if daemonFirsty != 0 and dead daemonFirsty
             if list daemonListy != 0
                 poplist daemonListy 'front'
@@ -1911,7 +1896,7 @@ while not dead
         
 #********** ACTIVATE NECROMANCER BAR IF USING ANY NECRO SPELLS **********# 
         
-        if NecroVengefulSpirit = 1 or NecroWither = 1
+        if NecroVengefulSpirit = 1 or NecroBloodOath = 1
             if findtype 'necromancer book' backpack
                 yell '[necromancyhotbar'
                 while not gumpexists 622436516
@@ -1966,19 +1951,23 @@ while not dead
         else 
             @setvar unholyPoints 0
         endif
-
-        if followers = 0 or unholyPoints = 12
-            @setvar! NecroWither 1 
-        endif  
         
-
         if 1 = NecroVengefulSpirit and 0 < unholyPoints and timer vengefulSpiritTimer > vengefulSpiritCD and skill 'necromancy' >= 50 and diffhits < activateAutoHealDiff
             if insysmsg "unholy symbols remaining"
             endif
             if insysmsg "seconds before you may use that ability again."
             endif
 
+            @setvar! castingInterrupted 0
+            @settimer! necroAbilityTimer 0
+
             while not insysmsg "unholy symbols remaining"
+                if timer necroAbilityTimer > necroAbilityTimeoutCD
+                    sysmsg "vengefulspirit no response" 44
+                    @setvar! castingInterrupted 1
+                    settimer vengefulSpiritTimer necroMarginErrorCD
+                    break
+                endif
                 sysmsg "vengefulspirit" 66
                 hotkey 'vengeful spirit'
                 getlabel backpack xxx
@@ -1996,7 +1985,87 @@ while not dead
                 settimer vengefulSpiritTimer 0
             endif
         endif
-               
+        
+#********** ACTIVATE NECROMANCER BLOOD OATH SPELL **********# 
+        
+        if ingump "20/" 622436516
+            @setvar! unholyPoints 20
+        elseif ingump "19/" 622436516
+            @setvar! unholyPoints 19
+        elseif ingump "18/" 622436516
+            @setvar! unholyPoints 18
+        elseif ingump "17/" 622436516
+            @setvar! unholyPoints 17
+        elseif ingump "16/" 622436516
+            @setvar! unholyPoints 16
+        elseif ingump "15/" 622436516
+            @setvar! unholyPoints 15
+        elseif ingump "14/" 622436516
+            @setvar! unholyPoints 14
+        elseif ingump "13/" 622436516
+            @setvar! unholyPoints 13
+        elseif ingump "12/" 622436516
+            @setvar! unholyPoints 12
+        elseif ingump "11/" 622436516
+            @setvar! unholyPoints 11
+        elseif ingump "10/" 622436516
+            @setvar! unholyPoints 10
+        elseif ingump "9/" 622436516
+            @setvar! unholyPoints 9
+        elseif ingump "8/" 622436516
+            @setvar! unholyPoints 8
+        elseif ingump "7/" 622436516
+            @setvar! unholyPoints 7
+        elseif ingump "6/" 622436516
+            @setvar! unholyPoints 6
+        elseif ingump "5/" 622436516
+            @setvar! unholyPoints 5
+        elseif ingump "4/" 622436516
+            @setvar! unholyPoints 4
+        elseif ingump "3/" 622436516
+            @setvar! unholyPoints 3
+        elseif ingump "2/" 622436516
+            @setvar! unholyPoints 2
+        elseif ingump "1/" 622436516
+            @setvar! unholyPoints 1
+        else 
+            @setvar unholyPoints 0
+        endif
+                
+        if 1 = NecroBloodOath and 3 < unholyPoints and timer bloodOathTimer > bloodOathCD and skill 'necromancy' >= 80 and diffhits < activateAutoHealDiff
+            if insysmsg "unholy symbols remaining"
+            endif
+            if insysmsg "seconds before you may use that ability again."
+            endif
+
+            @setvar! castingInterrupted 0
+            @settimer! necroAbilityTimer 0
+
+            while not insysmsg "unholy symbols remaining"
+                if timer necroAbilityTimer > necroAbilityTimeoutCD
+                    sysmsg "bloodoath no response" 44
+                    @setvar! castingInterrupted 1
+                    settimer bloodOathTimer necroMarginErrorCD
+                    break
+                endif
+                sysmsg "bloodoath" 66
+                hotkey 'blood oath'
+                getlabel backpack xxx
+                wait 200
+                if insysmsg "seconds before you may use that ability again."
+                    sysmsg "blood oath on cooldown" 44
+                    @setvar! castingInterrupted 1
+                    settimer bloodOathTimer necroMarginErrorCD
+                    break    
+                endif
+            endwhile
+            
+            if 0 = castingInterrupted
+                overhead '[>Blood Oath<]' 44
+                settimer bloodOathTimer 0
+            endif
+        endif
+        
 #********** ACTIVATE NECROMANCER WITHER SPELL **********# 
         
         if ingump "20/" 622436516
@@ -2049,78 +2118,16 @@ while not dead
             if insysmsg "seconds before you may use that ability again."
             endif
 
-            while not insysmsg "unholy symbols remaining"
-                sysmsg "wither" 66
-                hotkey 'wither'
-                getlabel backpack xxx
-                wait 200
-                if insysmsg "seconds before you may use that ability again."
-                    sysmsg "wither on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer witherTimer necroMarginErrorCD
-                    break    
-                endif
-            endwhile
-            
-            if 0 = castingInterrupted
-                overhead '[>Wither<]' 44
-                settimer witherTimer 0
-            endif
-        endif
-        
-#********** ACTIVATE NECROMANCER WITHER SPELL **********# 
-        
-        if ingump "20/" 622436516
-            @setvar! unholyPoints 20
-        elseif ingump "19/" 622436516
-            @setvar! unholyPoints 19
-        elseif ingump "18/" 622436516
-            @setvar! unholyPoints 18
-        elseif ingump "17/" 622436516
-            @setvar! unholyPoints 17
-        elseif ingump "16/" 622436516
-            @setvar! unholyPoints 16
-        elseif ingump "15/" 622436516
-            @setvar! unholyPoints 15
-        elseif ingump "14/" 622436516
-            @setvar! unholyPoints 14
-        elseif ingump "13/" 622436516
-            @setvar! unholyPoints 13
-        elseif ingump "12/" 622436516
-            @setvar! unholyPoints 12
-        elseif ingump "11/" 622436516
-            @setvar! unholyPoints 11
-        elseif ingump "10/" 622436516
-            @setvar! unholyPoints 10
-        elseif ingump "9/" 622436516
-            @setvar! unholyPoints 9
-        elseif ingump "8/" 622436516
-            @setvar! unholyPoints 8
-        elseif ingump "7/" 622436516
-            @setvar! unholyPoints 7
-        elseif ingump "6/" 622436516
-            @setvar! unholyPoints 6
-        elseif ingump "5/" 622436516
-            @setvar! unholyPoints 5
-        elseif ingump "4/" 622436516
-            @setvar! unholyPoints 4
-        elseif ingump "3/" 622436516
-            @setvar! unholyPoints 3
-        elseif ingump "2/" 622436516
-            @setvar! unholyPoints 2
-        elseif ingump "1/" 622436516
-            @setvar! unholyPoints 1
-        else 
-            @setvar unholyPoints 0
-        endif
-                
-        if 1 = NecroWither and 4 < unholyPoints and timer witherTimer > witherCD and skill 'necromancy' >= 90 and diffhits < activateAutoHealDiff
-            if insysmsg "unholy symbols remaining"
-            endif
-            if insysmsg "seconds before you may use that ability again."
-            endif
+            @setvar! castingInterrupted 0
+            @settimer! necroAbilityTimer 0
 
             while not insysmsg "unholy symbols remaining"
+                if timer necroAbilityTimer > necroAbilityTimeoutCD
+                    sysmsg "wither no response" 44
+                    @setvar! castingInterrupted 1
+                    settimer witherTimer necroMarginErrorCD
+                    break
+                endif
                 sysmsg "wither" 66
                 hotkey 'wither'
                 getlabel backpack xxx
@@ -2139,33 +2146,33 @@ while not dead
             endif
         endif
         
-        #if list earthListy = 0 
+        if list earthListy = 0 
             #sysmsg "Earth List = 0"
-        #elseif list earthListy = 1
+        elseif list earthListy = 1
             #sysmsg "Earth List = 1"
-        #elseif list earthListy = 2
+        elseif list earthListy = 2
             #sysmsg "Earth List = 2"
-        #endif
+        endif
         
-        #if list waterListy = 0 
+        if list waterListy = 0 
             #sysmsg "Water List = 0"
-        #elseif list waterListy = 1
+        elseif list waterListy = 1
             #sysmsg "Water List = 1"
-        #elseif list waterListy = 2
+        elseif list waterListy = 2
             #sysmsg "Water List = 2"
-        #endif
+        endif
         
-        #if list creatureListy = 0 
+        if list creatureListy = 0 
             #sysmsg "Creature List = 0"
-        #elseif list creatureListy = 1
+        elseif list creatureListy = 1
             #sysmsg "Creature List = 1"
-        #elseif list creatureListy = 2
+        elseif list creatureListy = 2
             #sysmsg "Creature List = 2"
-        #elseif list creatureListy = 2
+        elseif list creatureListy = 2
             #sysmsg "Creature List = 2"
-        #elseif list creatureListy = 2
+        elseif list creatureListy = 2
             #sysmsg "Creature List = 2"
-        #endif
+        endif
         
         @setvar! missingSummonRegs 0
         @setvar! summoningSucessful 0
@@ -2194,7 +2201,7 @@ while not dead
                 settimer noRegsMessageTimer 0
             endif
         endif
-
+            
 #********** CAST EARTH ELEMENTAL **********# 
     
         if earthElementals != 0 and list earthListy < earthElementals and followers < 4 and diffhits < activateAutoHealDiff and not casting and missingSummonRegs = 0 and mana > 49
@@ -2354,11 +2361,7 @@ while not dead
             endif
         
 #********** CAST AIR ELEMENTAL **********# 
-        #
-        #convert to energy spirit
-        # cast 'energy vortex'
-        # 13|391
-        # Target self of wait to target
+        
         elseif airElementals != 0 and list airListy < airElementals and followers < 4 and diffhits < activateAutoHealDiff and not casting and missingSummonRegs = 0 and mana > 49                    
             cast 'Air Elemental'
             @setvar! castingAir 1
@@ -2433,7 +2436,7 @@ while not dead
                 @clearignore
                 @setvar! castingAir 0
             endif
-
+        
 #********** CAST FIRE ELEMENTAL **********# 
         
         elseif fireElementals != 0 and list fireListy < fireElementals and followers < 4 and diffhits < activateAutoHealDiff and not casting and missingSummonRegs = 0 and mana > 49                      
@@ -2444,8 +2447,8 @@ while not dead
                 if targetexists
                     hotkey 'cancel current target'
                 endif
-            endwhile
-
+            endwhile  
+            
             while not dead
                 
                 if diffhits >= interruptCastingDiff
@@ -2678,12 +2681,7 @@ while not dead
             endif
             
         endif
-        
-       # if 1 = summoningSucessful and followers != maxFollowers
-#            hotkey 'target closest grey monster'
-#            attack lasttarget
-#        endif
-#    
+    
     endwhile
     
 #********* CARVE CORPSE *********
@@ -2770,18 +2768,17 @@ while not dead
             
             if not find lasttarget ground -1 -1 12
                 if timer noTargetMessageTimer > noTargetMessageCD
-                overhead 'No target nearby 1' 33
-                    settimer noTargetMessageTimer 0                    
-                      warmode off
+                    overhead 'No target nearby' 33
+                    settimer noTargetMessageTimer 0
                 endif
             elseif noto lasttarget = "friend" or noto lasttarget = "innocent"
                 if timer noTargetMessageTimer > noTargetMessageCD
-                overhead 'No target nearby 2' 33
+                    overhead 'No target nearby' 33
                     settimer noTargetMessageTimer 0
                 endif            
             elseif not dead lasttarget
                 @setvar! tempTarget lasttarget
-                while diffhits < activateAutoHealDiff and warmode on
+                while diffhits < activateAutoHealDiff
                     if timer searchingMessageTimer > searchingTargetMessageCD
                         overhead '* Searching target *' 90
                         settimer searchingMessageTimer 0
@@ -2798,12 +2795,8 @@ while not dead
                     if index != 0 
                         hotkey "next non-friendly monster target"
                         #sysmsg "hotkey non-friendly" 55
-                     @setvar! tempTarget lasttarget 
+                        @setvar! tempTarget lasttarget 
                         #overhead "*{{index}}*" 34 tempTarget
-                        
-                       # if boss = 1 
-                       # hotkey "Target Closest Murderer Monster"
-                       # @setvar! tempTarget lasttarget
                         
                         #if index = 1
                         #    @setvar! firstTarget lasttarget
@@ -2829,10 +2822,17 @@ while not dead
                         
                         getlabel tempTarget tempLabel
                         
+                        @settimer! labelFixTimer 0
                         while "-" in tempLabel
+                            if dead tempTarget or not find tempTarget ground -1 -1 12
+                                break
+                            endif
+                            if timer labelFixTimer > labelFixTimeoutCD
+                                sysmsg "* label stuck - skipping fix *" 34
+                                break
+                            endif
                             sysmsg "* correcting target label.. *" 34
-                            getlabel tempTarget tempLabel  
-                           break  
+                            getlabel tempTarget tempLabel
                         endwhile
                         
                         if inlist animalsIgnoreList tempLabel
@@ -2855,16 +2855,8 @@ while not dead
                                 if insysmsg "Target cannot be seen"
                                     sysmsg "*Not visible* [{{index}}]" 44
                                     overhead  "*Not visible* [{{index}}]" 44 tempTarget
-                                    if index > 33
-                                        warmode off
-                                    break
-                                    endif
                                 elseif insysmsg "That is too far away."
                                     overhead "*Too far* [{{index}}]" 44 tempTarget
-                                    if index > 33
-                                        warmode off
-                                    break
-                                    endif
                                 #elseif insysmsg "You must wait"
                                     #overhead "*Skill cooldown*" 11
                                     #sysmsg "*Skill cooldown*" 11
@@ -2956,9 +2948,9 @@ while not dead
         endif
     endif
     
-    #--- Use Meditation ---# New Block for meditation
+    #--- Use Meditation ---#
     
-    if 1 = useMeditationSkill and mana < 50 and not findbuff "meditating" and timer meditationTimer > meditationCD and not cooldown "Move" and not queued
+    if 1 = useMeditationSkill and mana < 50 and not findbuff "meditating" and timer meditationTimer > meditationCD
         if insysmsg "you are at peace"
         endif
         if insysmsg "you enter a meditative trance"
@@ -2972,8 +2964,8 @@ while not dead
         if not findbuff 'meditating'
             settimer meditationTimer 7500
         elseif findbuff 'meditating'
-            #warmode on
-            # warmode off
+            warmode on
+            warmode off
             settimer meditationTimer 0
             while mana < 50 and diffhits < activateAutoHealDiff
                 if not findbuff 'meditating'
@@ -2983,29 +2975,9 @@ while not dead
                     overhead "* actively meditating *" 11
                     settimer meditationMessageTimer 0
                 endif
-                
-                    # Med Shroom #
-                    if mana < eatMushWhenManaLowerThan and mushroomCount > 0 and timer mushroomTimer > mushroomTimerCD and not findbuff "Magic Mushroom Cooldown"
-                        if counttype 29012 backpack
-                            if insysmsg "You consume a magic mushroom"
-                            endif
-                        sysmsg "Eating mush." 44
-                        dclicktype 29012 backpack
-                        getlabel backpack xxx
-                        wait 200
-                
-                        if insysmsg "You consume a magic mushroom"
-                            settimer mushroomTimer 0
-                        endif
-                    else 
-                        overhead "No mushrooms found!" 34
-                        endif
-                    endif
-                    # Med Shroom #
-                
             endwhile
         endif
-    endif
+    endif 
     
     @setvar! petsCurrentlyAttacking 0 
     
@@ -3107,58 +3079,25 @@ while not dead
             hotkey 'cancel current target'
         endif
         
-        if followers > 0 and 0 = petsCurrentlyAttacking 
+        if followers > 0 and 0 = petsCurrentlyAttacking and timer allGuardTimer > allGuardCD
             sysmsg "all kill" 11 
             if followerAttackmode = 0
-                hotkey "all kill"
+                say "ALL Kill" 34
             else
-                hotkey "all patrol"
+                say "ALL Patrol" 34
             endif
             
             while not targetexists
                 wait 200
                 if not targetexists
                     if followerAttackmode = 0
-                        hotkey "all kill"
+                        say "ALL Kill" 34
                     else
-                        hotkey "all patrol"
-                    endif
-                endif
-            endwhile
-
-            target currentTarget
-            getlabel backpack xxx
-            wait 200
-            if insysmsg "Target cannot be seen"
-                while not targetexists
-                wait 650
-                if not targetexists
-                    if followerAttackmode = 0
-                        hotkey "all kill"
-                    else
-                        hotkey "all patrol"
+                        say "ALL Patrol" 34
                     endif
                 endif
             endwhile
             target currentTarget
-            getlabel backpack xxx
-            wait 200
-            endif
-            if insysmsg "That is too far away."
-            while not targetexists
-                wait 650
-                if not targetexists
-                    if followerAttackmode = 0
-                        hotkey "all kill"
-                    else
-                        hotkey "all patrol"
-                    endif
-                endif
-            endwhile
-            target currentTarget 
-            getlabel backpack xxx
-            wait 200
-            endif
             @setvar! petsCurrentlyAttacking 1 
             settimer allGuardTimer 0
         elseif followers > 0 and 1 = petsCurrentlyAttacking and timer allGuardTimer > allGuardCD
@@ -3180,7 +3119,7 @@ while not dead
         
         #--- Eat Mushroom ---# 
  
-        if mana < eatMushWhenManaLowerThan and mushroomCount > 0 and timer mushroomTimer > mushroomTimerCD and not findbuff "Magic Mushroom Cooldown"
+        if mana < eatMushWhenManaLowerThan and mushroomCount > 0 and timer mushroomTimer > mushroomTimerCD
             if counttype 29012 backpack
                 if insysmsg "You consume a magic mushroom"
                 endif
@@ -3199,41 +3138,41 @@ while not dead
         
         #--- Use Meditation ---#
         
-#        if 1 = useMeditationSkill and mana < meditateWhenManaBelow and not findbuff "meditating" and timer meditationTimer > meditationCD and not cooldown "Move" and not queued
-#            if insysmsg "you are at peace"
-#            endif
-#            if insysmsg "you enter a meditative trance"
-#            endif
-#            if insysmsg "You must wait a few moments to use another skill."
-#            endif
-#            
-#            skill 'meditation'
-#            getlabel backpack xxx
-#            wait 200
-#            if not findbuff 'meditating'
-#                settimer meditationTimer 7500
-#            elseif findbuff 'meditating'
-#               # warmode on
-#               # warmode off
-#                settimer meditationTimer 0
-#                while mana < meditateUntilManaReach and diffhits < activateAutoHealDiff
-#                    if not findbuff 'meditating'
-#                        break
-#                    endif
-#                    if timer meditationMessageTimer > meditationMessageCD
-#                        overhead "* meditating *" 11
-#                        settimer meditationMessageTimer 0
-#                    endif
-#                endwhile
-#            endif
-#        endif  
-#        
-#        if 2 = targetSelectionMode
-#            if insysmsg! "target a new"
-#                sysmsg "Breaking to set last target!" 44
-#                break
-#            endif
-#        endif
+        if 1 = useMeditationSkill and mana < meditateWhenManaBelow and not findbuff "meditating" and timer meditationTimer > meditationCD
+            if insysmsg "you are at peace"
+            endif
+            if insysmsg "you enter a meditative trance"
+            endif
+            if insysmsg "You must wait a few moments to use another skill."
+            endif
+            
+            skill 'meditation'
+            getlabel backpack xxx
+            wait 200
+            if not findbuff 'meditating'
+                settimer meditationTimer 7500
+            elseif findbuff 'meditating'
+                warmode on
+                warmode off
+                settimer meditationTimer 0
+                while mana < meditateUntilManaReach and diffhits < activateAutoHealDiff
+                    if not findbuff 'meditating'
+                        break
+                    endif
+                    if timer meditationMessageTimer > meditationMessageCD
+                        overhead "* actively meditating *" 11
+                        settimer meditationMessageTimer 0
+                    endif
+                endwhile
+            endif
+        endif  
+        
+        if 2 = targetSelectionMode
+            if insysmsg! "target a new"
+                sysmsg "Breaking to set last target!" 44
+                break
+            endif
+        endif
         
         
 #********** CHECK POISONING STATUS **********#
@@ -3242,12 +3181,17 @@ while not dead
              
             @setvar! repeatCastingPoison 1
             
+            @settimer! labelFixTimer 0
             while not dead currentTarget and find currentTarget ground -1 -1 12
                 getlabel currentTarget targetLabel
                 if "-" in targetLabel
+                    if timer labelFixTimer > labelFixTimeoutCD
+                        sysmsg "* label stuck - skipping fix *" 34
+                        break
+                    endif
                     getlabel currentTarget targetLabel
                     sysmsg "fixing poison label" 34
-                else 
+                else
                     break
                 endif
             endwhile
@@ -3489,20 +3433,33 @@ while not dead
                 if insysmsg "seconds before you may use that ability again."
                 endif
                 
+                @setvar! mindRotInterrupted 0
+                @settimer! necroAbilityTimer 0
+
                 while not insysmsg "unholy symbols remaining"
+                    if dead currentTarget and not find currentTarget ground -1 -1 12
+                        @setvar! mindRotInterrupted 1
+                        break
+                    endif
+                    if timer necroAbilityTimer > necroAbilityTimeoutCD
+                        sysmsg "mindrot no response" 44
+                        @setvar! mindRotInterrupted 1
+                        settimer mindRotTimer necroMarginErrorCD
+                        break
+                    endif
                     sysmsg "mindrot" 66
                     hotkey 'mind rot'
                     getlabel backpack xxx
                     wait 200
                     if insysmsg "seconds before you may use that ability again."
-                        @setvar! castingInterrupted 1
+                        @setvar! mindRotInterrupted 1
                         settimer mindRotTimer necroMarginErrorCD
                         sysmsg "mindrot on cooldown" 44
                         break    
                     endif
                 endwhile
                 
-                if 0 = castingInterrupted
+                if 0 = mindRotInterrupted
                     overhead '[>Mind Rot<]' 44
                     settimer mindRotTimer 0
                 endif
@@ -3617,7 +3574,7 @@ while not dead
                 
                     #--- Drink Heal Pot ---#
                     
-                    if diffhits >= drinkHealPotDiff and 1 = drinkHeal and not targetexists
+                    if diffhits >= drinkHealPotDiff and 1 = drinkHeal
                         if findtype "Yellow Potion" self as hPot
                             getlabel hPot potLabel
                             if "(" in potLabel
@@ -3710,7 +3667,7 @@ while not dead
                 
                     #--- Drink Heal Pot ---#
                     
-                    if diffhits >= drinkHealPotDiff and 1 = drinkHeal and not targetexists
+                    if diffhits >= drinkHealPotDiff and 1 = drinkHeal
                         if findtype "Yellow Potion" self as hPot
                             getlabel hPot potLabel
                             if "(" in potLabel
@@ -3744,33 +3701,7 @@ while not dead
                     break
                 endif
             endif 
-
-#********** CAST BLOOD OATH SPELL **********# 
-                
-        elseif 1 = NecroBloodOath and 3 < unholyPoints and timer bloodOathTimer > bloodOathCD and skill 'necromancy' >= 80 and diffhits < activateAutoHealDiff
-            if insysmsg "unholy symbols remaining"
-            endif
-            if insysmsg "seconds before you may use that ability again."
-            endif
-
-            while not insysmsg "unholy symbols remaining"
-                sysmsg "bloodoath" 66
-                hotkey 'blood oath'
-                getlabel backpack xxx
-                wait 200
-                if insysmsg "seconds before you may use that ability again."
-                    sysmsg "blood oath on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer bloodOathTimer necroMarginErrorCD
-                    break    
-                endif
-            endwhile
             
-            if 0 = castingInterrupted
-                overhead '[>Blood Oath<]' 44
-                settimer bloodOathTimer 0
-            endif
-       
 #********* CAST NECRO STRANGLE *********            
             
         elseif 1 = NecroStrangle and 3 < unholyPoints and timer strangleTimer > strangleCD and skill 'necromancy' >= 85 and mana >= minManaToUseDamageBuffNecroSpells and diffhits < activateAutoHealDiff and not dead currentTarget and find currentTarget ground -1 -1 12
@@ -3779,7 +3710,19 @@ while not dead
             if insysmsg "seconds before you may use that ability again."
             endif
 
+            @settimer! necroAbilityTimer 0
+
             while not insysmsg "unholy symbols remaining"
+                if dead currentTarget and not find currentTarget ground -1 -1 12
+                    @setvar! castingInterrupted 1
+                    break
+                endif
+                if timer necroAbilityTimer > necroAbilityTimeoutCD
+                    sysmsg "strangle no response" 44
+                    @setvar! castingInterrupted 1
+                    settimer strangleTimer necroMarginErrorCD
+                    break
+                endif
                 sysmsg "strangle" 66
                 hotkey 'strangle'
                 getlabel backpack xxx
@@ -3805,7 +3748,19 @@ while not dead
             if insysmsg "seconds before you may use that ability again."
             endif
 
+            @settimer! necroAbilityTimer 0
+
             while not insysmsg "unholy symbols remaining"
+                if dead currentTarget and not find currentTarget ground -1 -1 12
+                    @setvar! castingInterrupted 1
+                    break
+                endif
+                if timer necroAbilityTimer > necroAbilityTimeoutCD
+                    sysmsg "corpseskin no response" 44
+                    @setvar! castingInterrupted 1
+                    settimer corpseSkinTimer necroMarginErrorCD
+                    break
+                endif
                 sysmsg "corpseskin" 66
                 hotkey 'corpse skin'
                 getlabel backpack xxx
@@ -3831,7 +3786,19 @@ while not dead
             if insysmsg "seconds before you may use that ability again."
             endif
 
+            @settimer! necroAbilityTimer 0
+
             while not insysmsg "unholy symbols remaining"
+                if dead currentTarget and not find currentTarget ground -1 -1 12
+                    @setvar! castingInterrupted 1
+                    break
+                endif
+                if timer necroAbilityTimer > necroAbilityTimeoutCD
+                    sysmsg "evilomen no response" 44
+                    @setvar! castingInterrupted 1
+                    settimer evilOmenTimer necroMarginErrorCD
+                    break
+                endif
                 sysmsg "evilomen" 66
                 hotkey 'evil omen'
                 getlabel backpack xxx
@@ -3851,13 +3818,25 @@ while not dead
             
 #********* CAST NECRO MIND ROT *********
 
-        elseif 1 = NecroMindRot and 2 < unholyPoints and timer mindRotTimer > mindRotCD and skill 'necromancy' >= 75 and mana >= minManaToUseDamageBuffNecroSpells and diffhits < activateAutoHealDiff and not dead currentTarget and find currentTarget ground -1 -1 12
+        elseif 1 = NecroMindRot and 4 < unholyPoints and timer mindRotTimer > mindRotCD and skill 'necromancy' >= 75 and mana >= minManaToUseDamageBuffNecroSpells and diffhits < activateAutoHealDiff and not dead currentTarget and find currentTarget ground -1 -1 12
             if insysmsg "unholy symbols remaining"
             endif
             if insysmsg "seconds before you may use that ability again."
             endif
 
+            @settimer! necroAbilityTimer 0
+
             while not insysmsg "unholy symbols remaining"
+                if dead currentTarget and not find currentTarget ground -1 -1 12
+                    @setvar! castingInterrupted 1
+                    break
+                endif
+                if timer necroAbilityTimer > necroAbilityTimeoutCD
+                    sysmsg "mindrot no response" 44
+                    @setvar! castingInterrupted 1
+                    settimer mindRotTimer necroMarginErrorCD
+                    break
+                endif
                 sysmsg "mindrot" 66
                 hotkey 'mind rot'
                 getlabel backpack xxx
@@ -3874,124 +3853,7 @@ while not dead
                 overhead '[>Mind Rot<]' 44
                 settimer mindRotTimer 0
             endif
-
-#********* CAST VAMPIRIC EMBRANCE *********
-
-        elseif 1 = Necrovampirice and 2 < unholyPoints and timer vampiriceTimer > vampiriceCD and skill 'necromancy' >= 70 and diffhits < activateAutoHealDiff and findtype 8198 ground -1 -1 8 as jorpse
-            if insysmsg "unholy symbols remaining"
-            endif
-            if insysmsg "seconds before you may use that ability again."
-            endif
-
-            while not insysmsg "unholy symbols remaining"
-                sysmsg "vampiric embrace" 66
-                hotkey 'vampiric embrace'
-                wft 500
-                getlabel backpack xxx
-                target jorpse
-                getlabel backpack xxx
-                wait 200
-                if insysmsg "before attempting to use another Necromancy"
-                    sysmsg "vampiric embrace on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break
-                endif
-                if insysmsg "seconds before you may use that ability again."
-                    sysmsg "vampiric embrace on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer 15000
-                    break    
-                endif
-                if insysmsg "Target cannot be seen."
-                    sysmsg "vampiric embrace failed" 44
-                     @ignore jorpse
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break
-                endif
-                 if insysmsg "None of you follower"
-                     sysmsg "vampiric embrace useless" 44
-                     @ignore jorpse
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break
-                endif
-                if insysmsg "That is too far away."
-                    sysmsg "vampiric embrace failed" 44
-                     @ignore jorpse
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break
-                endif
-                if insysmsg "you do not see any corpse in that location"
-                sysmsg "vampiric embrace failed" 44
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break    
-                endif
-                if insysmsg "you do not have enough unholy"
-                    sysmsg "vampiric embrace on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer 15000
-                    break    
-                endif
-            endwhile
             
-            if 0 = castingInterrupted
-                overhead '[>vampiric Embrace<]' 44
-                settimer vampiriceTimer 0
-            endif
-
-#********* CAST PAIN SPIKE *********
-        #10 rnge ok  12 max
-        elseif 1 = Necropainspike and 4 < unholyPoints and timer painspikeTimer > painspikeCD and skill 'necromancy' >= 90 and diffhits < activateAutoHealDiff and not dead currentTarget and find currentTarget ground -1 -1 8 and findtype 8198 ground -1 -1 4 as jorpse
-            if insysmsg "unholy symbols remaining"
-            endif
-            if insysmsg "seconds before you may use that ability again."
-            endif
-
-            while not insysmsg "unholy symbols remaining"
-                sysmsg "pain spike" 66
-                hotkey 'pain spike'
-                wft 500
-                target currentTarget
-                getlabel backpack xxx
-                wait 200
-                if insysmsg "seconds before you may use that ability again."
-                    sysmsg "pain spike on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer painspikeTimer necroMarginErrorCD
-                    break    
-                endif
-                if insysmsg "Target cannot be seen."
-                sysmsg "pain spike failed" 44
-                 @ignore jorpse
-                    @setvar! castingInterrupted 1
-                    settimer painspikeTimer necroMarginErrorCD
-                    break    
-                endif
-                if insysmsg "you do not see any corpse in that location"
-                sysmsg "pain spike failed" 44
-                    @setvar! castingInterrupted 1
-                    settimer painspikeTimer necroMarginErrorCD
-                    break    
-                endif
-                if insysmsg "That is not in your line of sight"
-                sysmsg "pain spike failed" 44
-                 @ignore jorpse
-                    @setvar! castingInterrupted 1
-                    settimer painspikeTimer necroMarginErrorCD
-                    break    
-                endif
-                break
-            endwhile
-            
-            if 0 = castingInterrupted
-                overhead '[>Pain Spike<]' 44
-                settimer painspikeTimer 0
-            endif
-
 #********** CAST MAGIC ARROW  **********#
 
         elseif castMagicArrow = 1 and timer magicArrowTimer > magicArrowCD and diffhits < activateAutoHealDiff and mana >= 4 and mana < activateMagicArrowWhenManaBelow and not dead currentTarget and find currentTarget ground -1 -1 12 and findtype 3980 self
@@ -4188,7 +4050,7 @@ while not dead
                 
                     #--- Drink Heal Pot ---#
                     
-                    if diffhits >= drinkHealPotDiff and 1 = drinkHeal and not targetexists
+                    if diffhits >= drinkHealPotDiff and 1 = drinkHeal
                         if findtype "Yellow Potion" self as hPot
                             getlabel hPot potLabel
                             if "(" in potLabel
@@ -4326,7 +4188,7 @@ while not dead
                     
                         #--- Drink Heal Pot ---#
                         
-                        if diffhits >= drinkHealPotDiff and 1 = drinkHeal and not targetexists
+                        if diffhits >= drinkHealPotDiff and 1 = drinkHeal
                             if findtype "Yellow Potion" self as hPot
                                 getlabel hPot potLabel
                                 if "(" in potLabel
@@ -4380,10 +4242,10 @@ while not dead
                 if insysmsg "You cannot perform that ability yet"
                 endif
                 if useWeaponAbility = 1
-                        gumpresponse 11 3954121934
-                        getlabel backpack xxx
-                        wait 100
-                        gumpresponse 10 3954121934
+                    gumpresponse 11 3954121934
+                    getlabel backpack xxx
+                    wait 100
+                    gumpresponse 10 3954121934
                     
                     getlabel backpack xxx
                     wait 200                
@@ -4395,10 +4257,10 @@ while not dead
                     endif
                     
                 elseif useWeaponAbility = 2 and mana < useAbilityWhenManaLowerThan
-                        gumpresponse 10 3954121934
-                        getlabel backpack xxx
-                        wait 100
-                        gumpresponse 11 3954121934
+                    gumpresponse 10 3954121934
+                    getlabel backpack xxx
+                    wait 100
+                    gumpresponse 11 3954121934
                     
                     getlabel backpack xxx
                     wait 200                
@@ -4407,21 +4269,21 @@ while not dead
                         settimer weaponAbilityTimer 0    
                     else
                         sysmsg "Ability activated" 44    
-                    endif        
+                    endif
                     
                 elseif useWeaponAbility = 3 
-                        gumpresponse 11 3954121934
-                        getlabel backpack xxx
-                        wait 100
-                        gumpresponse 12 3954121934
+                    gumpresponse 11 3954121934
+                    getlabel backpack xxx
+                    wait 100
+                    gumpresponse 12 3954121934
                     
-                getlabel backpack xxx
-                wait 200                
-                if insysmsg "You cannot perform that ability yet"
-                    sysmsg "Ability cooldown" 44
-                    settimer weaponAbilityTimer 0    
-                else
-                    sysmsg "Ability activated" 44    
+                    getlabel backpack xxx
+                    wait 200                
+                    if insysmsg "You cannot perform that ability yet"
+                        sysmsg "Ability cooldown" 44
+                        settimer weaponAbilityTimer 0    
+                    else
+                        sysmsg "Ability activated" 44    
                     endif
                     
                 endif
@@ -4448,7 +4310,7 @@ while not dead
             endif
         elseif 1 = targetSelectionMode and 1 = switchTargetWhenToggleWarMode
             if not warmode
-            //warmode on
+                warmode on
                 @setvar! foundTarget 0
                 @setvar! currentTarget 0   
                 sysmsg "1-Switching Targets" 34
@@ -4458,140 +4320,25 @@ while not dead
     endwhile
     
 #********* ^ AUTO ATTACKING ENDS ^ *********    
-#    if followers > 0 and petsCurrentlyAttacking != 0 and diffhits < activateAutoHealDiff
-#
-#        if skill 'spirit' >= 50 and timer spiritSpeakTimer > spiritSpeakCD and findtype 'corpse' ground -1 -1 18 and dead currentTarget and not find currentTarget ground -1 -1 12
-#
-#            if insysmsg "you establish contact"
-#            endif
-#            if insysmsg "you fail your attempt"
-#            endif
-#            
-#            skill 'spiritspeak'
-#            getlabel backpack xxx
-#            wait 200
-#            
-#            if insysmsg "you establish contact" or insysmsg "you fail your attempt"
-#                settimer spiritSpeakTimer 0
-#            endif
-#            
-#        endif
-#    endif
+    
+    if followers > 0 and petsCurrentlyAttacking != 0 and diffhits < activateAutoHealDiff
 
-#    if 1 = useMeditationSkill and not findbuff "meditating" and timer meditationTimer > meditationCD and not warmode and not cooldown "Move" and mana < maxmana and not queued
-#            if insysmsg "you are at peace"
-#            endif
-#            if insysmsg "you enter a meditative trance"
-#            endif
-#            if insysmsg "You must wait a few moments to use another skill."
-#            endif
-#            
-#            skill 'meditation'
-#            getlabel backpack xxx
-#            wait 200
-#            if not findbuff 'meditating'
-#                settimer meditationTimer 7500
-#            elseif findbuff 'meditating'
-#                // warmode on
-#                // warmode off
-#                settimer meditationTimer 0
-#                while mana < maxmana and diffhits < activateAutoHealDiff 
-#                    if not findbuff 'meditating' 
-#                        break
-#                    endif
-#                    if timer meditationMessageTimer > meditationMessageCD
-#                        overhead "* meditating *" 11
-#                        settimer meditationMessageTimer 0
-#                    endif
-#
-#                    # Med Shroom #
-#                    if mana < eatMushWhenManaLowerThan and mushroomCount > 0 and timer mushroomTimer > mushroomTimerCD and not findbuff "Magic Mushroom Cooldown"
-#                        if counttype 29012 backpack
-#                            if insysmsg "You consume a magic mushroom"
-#                            endif
-#                        sysmsg "Eating mush." 44
-#                        dclicktype 29012 backpack
-#                        getlabel backpack xxx
-#                        wait 200
-#                
-#                        if insysmsg "You consume a magic mushroom"
-#                            settimer mushroomTimer 0
-#                        endif
-#                    else 
-#                        overhead "No mushrooms found!" 34
-#                        endif
-#                    endif
-#                    # Med Shroom #
-#
-#                endwhile
-#            endif
-            
-        endif
-            if 1 = Necrovampirice and 2 < unholyPoints and timer vampiriceTimer > vampiriceCD and skill 'necromancy' >= 70 and diffhits < activateAutoHealDiff and findtype 8198 ground -1 -1 4 as jorpse
-            if insysmsg "unholy symbols remaining"
-            endif
-            if insysmsg "seconds before you may use that ability again."
-            endif
+        if skill 'spirit' >= 50 and timer spiritSpeakTimer > spiritSpeakCD and findtype 'corpse' ground -1 -1 18 and dead currentTarget and not find currentTarget ground -1 -1 12
 
-            while not insysmsg "unholy symbols remaining"
-                sysmsg "vampiric embrace" 66
-                hotkey 'vampiric embrace'
-                wft 500
-                getlabel backpack xxx
-                target self  
-                wait 650
-                if insysmsg "before attempting to use another Necromancy"
-                    sysmsg "vampiric embrace on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break
-                endif
-                if insysmsg "seconds before you may use that ability again."
-                    sysmsg "vampiric embrace on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer 15000
-                    break    
-                endif
-                if insysmsg "Target cannot be seen."
-                    sysmsg "vampiric embrace failed" 44
-                    # @ignore jorpse
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break
-                endif
-                 if insysmsg "None of you follower"
-                     sysmsg "vampiric embrace useless" 44
-                     @ignore jorpse
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break
-                endif
-                if insysmsg "That is too far away."
-                    sysmsg "vampiric embrace failed" 44
-                     #@ignore jorpse
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break
-                endif
-                if insysmsg "you do not see any corpse in that location" or not findtype 8198 ground -1 -1 6
-                sysmsg "vampiric embrace failed" 44
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer necroMarginErrorCD
-                    break    
-                endif
-                if insysmsg "you do not have enough unholy"
-                    sysmsg "vampiric embrace on cooldown" 44
-                    @setvar! castingInterrupted 1
-                    settimer vampiriceTimer 15000
-                    break    
-                endif
-            endwhile
+            if insysmsg "you establish contact"
+            endif
+            if insysmsg "you fail your attempt"
+            endif
             
-            if 0 = castingInterrupted
-                overhead '[>vampiric Embrace<]' 44
-                settimer vampiriceTimer 0
+            skill 'spiritspeak'
+            getlabel backpack xxx
+            wait 200
+            
+            if insysmsg "you establish contact" or insysmsg "you fail your attempt"
+                settimer spiritSpeakTimer 0
             endif
             
         endif
+    endif
     
 endwhile
