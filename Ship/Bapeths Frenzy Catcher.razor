@@ -1,0 +1,78 @@
+# Bapeths Frenzy Catcher
+#
+# Sept 16th 2025
+#
+# Play the script while you are looking for fishing frenzies
+# It will auto fish once a frenzy is detected as well as highlight frenzies overhead 
+# The script will stop if you cast a spell
+#
+# Fishing Pole is required
+
+if not findtype "fishing pole" self
+    overhead "I will need a Fishing Pole..." 45
+    stop
+endif
+
+if not timerexists fishy
+    createtimer fishy
+    settimer fishy 11000
+else 
+    if timer fishy >= 11000
+        overhead "Here.. fishy, fishy, fishy!" 94
+        settimer fishy 0
+    endif
+endif
+while casting 
+    stop
+endwhile
+    
+if findtype "fishing pole" as pole and not targetexists and not casting 
+    if not findlayer self lefthand and not findlayer self righthand
+        lift pole 1
+        drop self righthand
+        pause 500
+        getlabel backpack ping
+    elseif findlayer self lefthand as equippedRH
+        getlabel equippedRH desc
+        if "fishing pole" in desc
+            //donothing
+        else
+            lift equippedRH
+            drop backpack
+            pause 500
+            getlabel backpack ping
+        endif
+    elseif findlayer self righthand as equippedRH
+        getlabel equippedRH desc
+        if "fishing pole" in desc
+            //donothing
+        else
+            lift equippedRH
+            drop backpack
+            pause 500
+            getlabel backpack ping
+        endif
+    endif
+endif
+for 18
+    if index > 0 and findtype 42403 ground -1 -1 index as fishfrenzy
+        getlabel fishfrenzy desc
+        if "fishing frenzy" in desc
+            overhead "**Frenzy Found**" 2085 fishfrenzy
+            break
+        endif
+    endif
+endfor
+
+while findtype 42403 ground -1 -1 8
+    clearsysmsg 
+    hotkey 'use item in hand'
+    overhead "**Fishing**" 1788 fishfrenzy
+    pause 3100
+    getlabel backpack ping
+    if insysmsg "The fishing frenzy subsides."
+        overhead "Frenzy Depleted..." 38
+        break
+    endif
+endwhile
+loop
