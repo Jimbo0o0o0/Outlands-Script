@@ -3,7 +3,7 @@
 # Script will loop into 'Master Background' if you have it in your script library
 #
 # This script will immedeatly start to repair and open the repair gump for manual selection
-# The priority of auto repair is Guns > Sails > Hull
+# The priority of auto repair is Hull 2 > Guns 4 > Sails 3 
 # If the repair is already underway and you want to change what ship part is being repaired select it in the gump
 #
 # Script starts here
@@ -12,23 +12,27 @@ if findtype "ship repair kit"
     clearsysmsg 
     say "[Repair" 45
     waitforgump 1271619955 500
-    gumpresponse 4
+    gumpresponse 2
     getlabel backpack ping
 else
     overhead "I am out of repair kits..." 38
+endif
+
+
+if insysmsg "hull"
+    gumpresponse 4
+    getlabel backpack ping
 endif
 if insysmsg "guns"
     gumpresponse 3
     getlabel backpack ping
 endif
 if insysmsg "sails"
-    gumpresponse 2
-    getlabel backpack ping
-endif
-if insysmsg "hull"
+#    gumpresponse 2
+#   getlabel backpack ping
     overhead "Ship is in good order!" 68
-
 endif
+
 if insysmsg "repaired again"
     overhead "Yar, we cant repair in combat..." 38
 endif
