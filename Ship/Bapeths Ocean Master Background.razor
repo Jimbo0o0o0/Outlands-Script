@@ -188,6 +188,15 @@
 #
 ##########################################################################################################################################################################
 #
+#
+##########################################################################################################################################################################
+#
+# senseshipdelay 6000 is default
+@setvar! "senseshipdelay" 6000
+@setvar! "senseshipautotracking" 1
+#
+##########################################################################################################################################################################
+#
 # Script starts here
 
 if "CannonTargetModeGump" = 1
@@ -482,13 +491,15 @@ elseif gumpexists 1244441914 and timerexists senseship
     removetimer senseship
     overhead "Ship Sense Disabled" 38
 endif
-
+# and gumpexists 2890020940
 if not warmode and timerexists senseship
-    if timer senseship >= 6000 and gumpexists 2890020940 and findtype "spyglass" backpack as bspy
+    if timer senseship >= senseshipdelay and findtype "spyglass" backpack as bspy
         settimer senseship 0
         dclick bspy
         getlabel backpack ping
+        if 1 = senseshipautotracking
         gumpresponse 100
+        endif
     endif
 endif
 
