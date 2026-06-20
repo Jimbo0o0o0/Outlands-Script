@@ -1,0 +1,54 @@
+
+#this will use your spyglass automaticly to spot player ships every x/sec \\ 1=on 0=off
+@setvar! autoSpyglass 1
+@setvar! autoSpyglassTimer 7000
+@setvar! gc 650
+
+ if autoBoating = 1 
+        if autoSpyglass = 1 and not cooldown 'spyglass' and not targetexists and not queued and hp >= 60 and findtype "spyglass" backpack
+            overhead 'Scanning Boats...' 44
+    
+                if find 'Sglass' backpack
+                    dclick 'Sglass'
+                    getlabel 'Sglass' spydesc
+                    if '(5 uses' in spydesc or '(4 uses' in spydesc or '(3 uses' in spydesc or '(2 uses' in spydesc or '(1 uses' in spydesc or '(1 use' in spydesc
+                        overhead 'Your Spyglass is about to break!' 33
+                        getlabel backpack ping
+                    endif
+                else
+                    if findtype "spyglass" backpack as Sglass
+                        @setvar 'Sglass' Sglass
+                        dclick 'Sglass'
+                    else
+                        overhead 'No more Spyglass!' 33
+                    endif           
+                endif
+                
+            
+            if SendGreyBoatAlerts = 1
+                if ingump "a small ship" 2890020940 or ingump "a small dragonship" 2890020940 or ingump "a medium ship" 2890020940 or ingump "a medium dragonship" 2890020940 or ingump "a large ship" 2890020940 or ingump "a large dragonship" 2890020940 or ingump "a carrack" 2890020940 or ingump "a galleon" 2890020940 or ingump "a longship" 2890020940 or ingump "a ship of the line" 2890020940
+                        overhead "Player BOAT" 34
+                        wait 250
+                        overhead "Player BOAT" 34
+                        wait 250
+                        overhead "Player BOAT" 34
+                endif
+            endif
+            cooldown 'spyglass' autoSpyglassTimer
+        endif
+        
+        # spyglass next page and back cycling
+        if cooldown 'spyglass'
+            if not timerexists "SpyglassNextPage"
+                createtimer "SpyglassNextPage"
+                settimer "SpyglassNextPage" 3000
+            endif
+            if ingump "page" 2890020940
+                if timer "SpyglassNextPage" > 3000
+                    gumpresponse 11 2890020940
+                    waitforgump 2890020940 1000
+                    settimer "SpyglassNextPage" 0
+                endif
+            endif
+        endif
+ endif
