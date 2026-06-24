@@ -1,0 +1,315 @@
+@setvar! gc 675
+clearsysmsg
+if not position 63 1570
+    overhead "You must be at home to use this echo Script" 34
+    stop
+endif
+
+yell '[echo'
+wait 200
+if ingump 'Next Activation Allowed in'
+    overhead 'You cannot change now, must wait or buy customizations.' 44
+    waitforgump 210712595
+    gumpclose
+    stop
+endif
+waitforgump 210712595
+# Manual Selection of echo
+while not dead
+    wait 300
+    if insysmsg 'You have recently been in combat and must wait'
+        overhead 'Calm Down... Recently in combat and must wait' 38
+        waitforgump 210712595
+    elseif insysmsg 'Click once more to confirm activation of this echo.'
+        waitforgump 210712595
+        gumpresponse 6
+        waitforgump 210712595
+        overhead 'Echo Activated!' 68
+        gumpclose
+        break
+    endif
+endwhile
+
+removetimer "time_out"
+if not timerexists "time_out"
+    createtimer "time_out"
+    settimer "time_out" 0
+endif
+
+#Repair and wait
+if findtype "repair bench" ground -1 -1 2 as bench
+    while insysmsg "You do not have any items equipped or in your backpack in need of repairs." or insysmsg "Repair"
+    endwhile
+    dclick bench
+    getlabel backpack jaseowns_PingCheck
+    if insysmsg "You do not have any items equipped or in your backpack in need of repairs."
+        // continue
+    else
+        settimer lilJaseTimer 0
+        while timer lilJaseTimer <= 5000
+            if insysmsg "Repair"
+                break
+            endif
+        endwhile
+        overhead "Repair took: {{lilJaseTimer}}"
+        removetimer lilJaseTimer
+    endif
+endif
+@drop backpack
+if findlayer self righthand as item
+    lift item gc
+    drop backpack
+endif
+if findlayer self lefthand as item
+    lift item gc
+    drop backpack
+endif
+if findlayer self quiver as item
+    lift item gc
+    drop backpack
+endif
+if findlayer self outerbody as item
+    lift item gc
+    drop backpack
+endif
+
+#Echo skill detection
+if skill 'spirit speak' >= 100 and if skill 'hearding' >= 100
+
+#drop all items in backpack if not wearing leather armor
+    if not findtype 5075 innertorso
+        @drop backpack
+        #if findlayer self head as item
+        #    lift item gc
+        #    drop backpack
+        #endif
+        if findlayer self gloves as item
+            lift item gc
+            drop backpack
+        endif
+        #if findlayer self neck as item
+        #    lift item gc
+        #    drop backpack
+        #endif
+        if findlayer self innertorso as item
+            lift item gc
+            drop backpack
+        endif
+        if findlayer self arms as item
+            lift item gc
+            drop backpack
+        endif
+        if findlayer self pants as item
+            lift item gc
+            drop backpack
+        endif
+    endif
+    #empty backpack
+    while findtype 3705|30765|3702|31262|3701 backpack
+        if findtype "storage shelf|gothic storage shelf" ground -1 -1 2 as shelf
+            menu shelf 0
+            wft 500
+            target self
+            wait 200
+            gumpclose 3232825965
+        endif
+        wait 100
+        if insysmsg 'That container does not'
+            break
+        endif
+    endwhile
+    #restock
+    if findtype 'storage shelf' ground -1 -1 2  as Shelf
+        wait 200
+        gumpclose
+        wait 200
+        dclick Shelf
+        while not ingump '(97 Items)'
+            gumpresponse 18
+            waitforgump 3232825965
+        endwhile
+        wait 200
+        menu Shelf 1
+        waitforgump 3232825965
+        gumpclose
+    endif
+    while all_armor_equipped = 0
+
+        if findtype 5061|5063|5070|5074|5075|7169|7175|7177|7179|7610|31191 backpack as found_armor
+            getlabel found_armor description
+
+            if "exceptional" in description
+                dclick found_armor
+                @setvar! found_armor 0
+            endif
+        endif
+   
+        if findlayer self 'pants' as equipped_item
+            @setvar! pants_equipped 1
+        endif
+
+        if findlayer self 'innertorso' as equipped_item
+            @setvar! chest_equipped 1
+        endif
+
+        if findlayer self 'head' as equipped_item
+            @setvar! helmet_equipped 1
+        endif
+
+        if findlayer self 'gloves' as equipped_item
+            @setvar! gloves_equipped 1
+        endif
+
+        if findlayer self 'arms' as equipped_item
+            @setvar! arms_equipped 1
+        endif
+
+        if findlayer self 'neck' as equipped_item
+            @setvar! neck_equipped 1
+        endif
+    
+        if pants_equipped = 1 and chest_equipped = 1 and helmet_equipped = 1 and gloves_equipped = 1 and arms_equipped = 1 and neck_equipped = 1
+            @setvar all_armor_equipped 1
+        endif
+
+        if timer "time_out" >= 10000
+            overhead "ERROR - Script Timed Out" 33
+            stop
+        endif
+    endwhile
+    if findtype "shepherd's crook" backpack as crook
+        getlabel crook desc
+        if 'activated' in desc
+            menu crook 0
+        endif
+    endif
+    wait 200
+    menu 0x5A3BD57B 0
+    wait 200
+       
+    say '[AspectWeapon Frost'
+    wait 1000
+
+    say '[AspectArmor Command'
+
+    for 5
+        overhead 'Set Razor profile to Summoner' 38
+    endfor
+elseif skill 'Fishing' >= 100 and skill 'Chivalry' >= 100
+#drop all items in backpack if not wearing Plate armor
+    if not findtype 5142 innertorso
+        @drop backpack
+        #if findlayer self head as item
+        #    lift item gc
+        #    drop backpack
+        #endif
+        if findlayer self gloves as item
+            lift item gc
+            drop backpack
+        endif
+        #if findlayer self neck as item
+        #    lift item gc
+        #    drop backpack
+        #endif
+        if findlayer self innertorso as item
+            lift item gc
+            drop backpack
+        endif
+        if findlayer self arms as item
+            lift item gc
+            drop backpack
+        endif
+        if findlayer self pants as item
+            lift item gc
+            drop backpack
+        endif
+#Empty backpack
+        while findtype 3705|30765|3702|31262|3701 backpack
+            if findtype "storage shelf|gothic storage shelf" ground -1 -1 2 as shelf
+                menu shelf 0
+                wft 500
+                target self
+                wait 200
+                gumpclose 3232825965
+            endif
+            wait 100
+            if insysmsg 'That container does not'
+                break
+            endif
+        endwhile
+        #restock
+        if findtype 'storage shelf' ground -1 -1 2  as Shelf
+            wait 200
+            gumpclose
+            wait 200
+            dclick Shelf
+            while not ingump '(154 Items)'
+                gumpresponse 18
+                waitforgump 3232825965
+            endwhile
+            wait 200
+            menu Shelf 1
+            waitforgump 3232825965
+            gumpclose
+            overhead 'Resupply Complete' 68
+        endif
+        while all_armor_equipped = 0
+
+            if findtype 5129|5132|5135|5138|5139|5142|5143|5144|5146|7173|7177|31008 backpack as found_armor
+                getlabel found_armor description
+
+                if "exceptional" in description
+                    dclick found_armor
+                    @setvar! found_armor 0
+                endif
+            endif
+   
+            if findlayer self 'pants' as equipped_item
+                @setvar! pants_equipped 1
+            endif
+
+            if findlayer self 'innertorso' as equipped_item
+                @setvar! chest_equipped 1
+            endif
+
+            if findlayer self 'head' as equipped_item
+                @setvar! helmet_equipped 1
+            endif
+
+            if findlayer self 'gloves' as equipped_item
+                @setvar! gloves_equipped 1
+            endif
+
+            if findlayer self 'arms' as equipped_item
+                @setvar! arms_equipped 1
+            endif
+
+            if findlayer self 'neck' as equipped_item
+                @setvar! neck_equipped 1
+            endif
+    
+            if pants_equipped = 1 and chest_equipped = 1 and helmet_equipped = 1 and gloves_equipped = 1 and arms_equipped = 1 and neck_equipped = 1
+                @setvar all_armor_equipped 1
+            endif
+
+            if timer "time_out" >= 10000
+                overhead "ERROR - Script Timed Out" 33
+                stop
+            endif
+        endwhile
+
+        menu 0x5845C4F8 0
+        wait 200
+       
+        say '[AspectWeapon Frost'
+        wait 1000
+
+        say '[AspectArmor Frost'
+
+        for 5
+            overhead 'Set Razor profile to Boater' 38
+        endfor
+
+    else
+        overhead 'No skill match for this echo or profile' 38
+    endif
