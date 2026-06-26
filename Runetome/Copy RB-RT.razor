@@ -2,13 +2,13 @@
 # Requirements: two runetome, one filled one blank - enough blank runes and regs to mark/recall
 # By default the runelist is 26 long (full runetome)
 # You can remove the list elements from runes_to_copy_list
-# Additional Info:
+# Additional Info: 
 #   This script removes a rune from your "from" runetome, recalls to that location
 #   and use the description of that rune.  Once it recalls, it will attempt to Mark
 #   a blank rune and rename based on that description
 #   Assuming all goes well, it puts both runes back
 #   WARNING: if your runes are unsafe locations, this may fail.
-
+    clearsysmsg 
 removelist runes_to_copy_list
 createlist runes_to_copy_list
 # You can comment these out to prevent running all runes
@@ -39,7 +39,7 @@ pushlist runes_to_copy_list 23
 pushlist runes_to_copy_list 24
 pushlist runes_to_copy_list 25
 pushlist runes_to_copy_list 26
-#The entire runetome is 26 runes
+#The entire runetome is 26 runes 
 
 if counttype "recall rune" backpack 2882 < 26
     overhead "Cannot continue" 34
@@ -68,7 +68,12 @@ if not timerexists runes_to_copy_skill_check
 endif
 
 foreach rune_to_copy in runes_to_copy_list
-    clearsysmsg
+                        if insysmsg "The world will save in"
+                        while not insysmsg "World save complete."
+                        pause 1000
+                        endwhile
+                        endif 
+    clearsysmsg 
     if mana < 20
         while mana < 31
             overhead "Waiting for at least 30 mana..." 22
@@ -79,7 +84,7 @@ foreach rune_to_copy in runes_to_copy_list
             wait 1000
         endwhile
     endif
-
+    
     overhead "Pulling rune..." 88
     overhead rune_to_copy 144
 
@@ -96,16 +101,16 @@ foreach rune_to_copy in runes_to_copy_list
     wait 200
     gumpclose 167090027
     wait 200
-
+    
     # Drop rune from runebook
     #dclick runebook_copy_from
     #waitforgump 1551740969
     #gumpresponse 3
     #waitforgump 1551740969
     #gumpclose 1551740969
-
+    
     if findtype "recall rune" backpack 0 as currentRune
-
+        
         getlabel currentRune runeDescription
         overhead runeDescription 88
         overhead "Recall..." 88
@@ -113,10 +118,14 @@ foreach rune_to_copy in runes_to_copy_list
         wft 3500
         target currentRune
         wait 2000
+        overhead "Move Rune..." 88
+        lift currentRune
+        drop runebook_copy_from 0 0 0
+        wait 650
         if followers > 0
             say 'All guard me'
-        endif
-        overhead "Mark..." 88
+        endif    
+        overhead "Mark..." 88    
         cast Mark
         wft 3500
         if insysmsg "thus ruining thy spell"
@@ -125,10 +134,6 @@ foreach rune_to_copy in runes_to_copy_list
             wft 3500
         endif
         targettype "recall rune" backpack 2882
-        overhead "Move Rune..." 88
-        lift currentRune
-        drop runebook_copy_from 0 0 0
-        wait 650
 
         if findtype "recall rune" backpack 0 as newRune
             overhead "Rename and move to new book" 88
@@ -145,9 +150,9 @@ foreach rune_to_copy in runes_to_copy_list
     else
         overhead "Might be done..." 88
     endif
-    if followers > 0
-        say 'All follow me'
-    endif
+     if followers > 0
+            say 'All follow me'
+        endif    
 endfor
 
 overhead "Enjoy your copy!" 104
