@@ -82,9 +82,9 @@ if findlayer self outerbody as item
 endif
 
 #Echo skill detection
-if skill 'spirit speak' >= 100 and if skill 'hearding' >= 100
+if skill 'spirit speak' >= 100 and skill 'hearding' >= 100
 
-#drop all items in backpack if not wearing leather armor
+    #drop all items in backpack if not wearing leather armor
     if not findtype 5075 innertorso
         @drop backpack
         #if findlayer self head as item
@@ -151,7 +151,7 @@ if skill 'spirit speak' >= 100 and if skill 'hearding' >= 100
                 @setvar! found_armor 0
             endif
         endif
-   
+
         if findlayer self 'pants' as equipped_item
             @setvar! pants_equipped 1
         endif
@@ -175,7 +175,7 @@ if skill 'spirit speak' >= 100 and if skill 'hearding' >= 100
         if findlayer self 'neck' as equipped_item
             @setvar! neck_equipped 1
         endif
-    
+
         if pants_equipped = 1 and chest_equipped = 1 and helmet_equipped = 1 and gloves_equipped = 1 and arms_equipped = 1 and neck_equipped = 1
             @setvar all_armor_equipped 1
         endif
@@ -194,7 +194,7 @@ if skill 'spirit speak' >= 100 and if skill 'hearding' >= 100
     wait 200
     menu 0x5A3BD57B 0
     wait 200
-       
+
     say '[AspectWeapon Frost'
     wait 1000
 
@@ -204,7 +204,7 @@ if skill 'spirit speak' >= 100 and if skill 'hearding' >= 100
         overhead 'Set Razor profile to Summoner' 38
     endfor
 elseif skill 'Fishing' >= 100 and skill 'Chivalry' >= 100
-#drop all items in backpack if not wearing Plate armor
+    #drop all items in backpack if not wearing Plate armor
     if not findtype 5142 innertorso
         @drop backpack
         #if findlayer self head as item
@@ -232,7 +232,7 @@ elseif skill 'Fishing' >= 100 and skill 'Chivalry' >= 100
             drop backpack
         endif
     endif
-#Empty backpack
+    #Empty backpack
     while findtype 3705|30765|3702|31262|3701 backpack
         if findtype "storage shelf|gothic storage shelf" ground -1 -1 2 as shelf
             menu shelf 0
@@ -246,7 +246,7 @@ elseif skill 'Fishing' >= 100 and skill 'Chivalry' >= 100
             break
         endif
     endwhile
-        #restock
+    #restock
     if findtype 'storage shelf' ground -1 -1 2  as Shelf
         wait 200
         gumpclose
@@ -272,7 +272,7 @@ elseif skill 'Fishing' >= 100 and skill 'Chivalry' >= 100
                 @setvar! found_armor 0
             endif
         endif
-   
+
         if findlayer self 'pants' as equipped_item
             @setvar! pants_equipped 1
         endif
@@ -296,7 +296,7 @@ elseif skill 'Fishing' >= 100 and skill 'Chivalry' >= 100
         if findlayer self 'neck' as equipped_item
             @setvar! neck_equipped 1
         endif
-    
+
         if pants_equipped = 1 and chest_equipped = 1 and helmet_equipped = 1 and gloves_equipped = 1 and arms_equipped = 1 and neck_equipped = 1
             @setvar all_armor_equipped 1
         endif
@@ -309,7 +309,7 @@ elseif skill 'Fishing' >= 100 and skill 'Chivalry' >= 100
 
     menu 0x5845C4F8 0
     wait 200
-       
+
     say '[AspectWeapon Frost'
     wait 1000
 
@@ -322,7 +322,7 @@ elseif skill 'Fishing' >= 100 and skill 'Chivalry' >= 100
 else
     overhead 'No skill match for this echo or profile' 38
 endif
-  
+
 ### Set our gear as variables to loot our corps
 if not varexist jase_righthand
     @setvar! jase_righthand 0
@@ -481,10 +481,9 @@ if not varexist jootbag or not find jootbag self 38
     overhead "Set new lootbag"
     @setvar! jootbag
     while targetexists
-       
+
     endwhile
     hotkey "Set Grab Item Hotbag"
     wft 500
     target jootbag
-endif
 endif
