@@ -110,7 +110,7 @@ foreach rune_to_copy in runes_to_copy_list
     #gumpclose 1551740969
     
     if findtype "recall rune" backpack 0 as currentRune
-        
+        @ignore currentRune
         getlabel currentRune runeDescription
         overhead runeDescription 88
         overhead "Recall..." 88
