@@ -27,8 +27,8 @@ text_colors = [
 rect_width, rect_height = 25, 17
 rect_fill_color = (0, 0, 0, 255)   #  Black
 # Circle outline settings
-rect_outline_color = (0, 0, 0, 255)      # Black border
-rect_outline_width = 2
+rect_outline_color = (255, 255, 255, 255)      # White border
+rect_outline_width = 1
 
 # Image size
 image_width, image_height = 31, 31
