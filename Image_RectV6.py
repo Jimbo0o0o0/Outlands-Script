@@ -26,6 +26,9 @@ text_colors = [
 # Rectangle settings
 rect_width, rect_height = 25, 17
 rect_fill_color = (0, 0, 0, 255)   #  Black
+# Circle outline settings
+rect_outline_color = (0, 0, 0, 255)      # Black border
+rect_outline_width = 2
 
 # Image size
 image_width, image_height = 31, 31
@@ -55,7 +58,9 @@ for number in range(min_number, max_number + 1):
         rect_y = (image_height - rect_height) // 2
         draw.rectangle(
             [(rect_x, rect_y), (rect_x + rect_width - 1, rect_y + rect_height - 1)],
-            fill=rect_fill_color
+            fill=rect_fill_color,
+            outline=rect_outline_color,
+            width=rect_outline_width
         )
 
         # Prepare text
