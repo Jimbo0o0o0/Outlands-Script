@@ -20,7 +20,7 @@ numbers = list(range(1, 15))           # 1 to 14
 letters = [chr(i) for i in range(ord('A'), ord('L') + 1)]  # A to L
 
 # Generate all combinations: 1A, 1B, ..., 14L
-all_combinations = [f"{num}{letter}" for num in numbers for letter in letters]
+all_combinations = [f"{num}{letter}" for num in numbers for letter in letters] # + ["fjlfsjf", "fw;ofipwvn;"]
 # =================================================
 
 os.makedirs(output_dir, exist_ok=True)

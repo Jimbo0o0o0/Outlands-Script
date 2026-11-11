@@ -1,5 +1,13 @@
 @setvar! golddamount 2000
 while weight > maxweight
+      if stam <= 4 and findtype "Red Potion" backpack as redpot
+        while queued
+            //donothing
+        endwhile
+        dclick redpot
+        pause 250
+        getlabel backpack ping
+    endif
     if findtype 8198 ground -1 -1 2 as corpse
         @drop backpack
         lifttype 'gold coin' golddamount

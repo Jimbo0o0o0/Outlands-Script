@@ -2,22 +2,29 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 
 # ==================== SETTINGS ====================
-output_dir = r"C:/number_images/number_Texte"
+output_dir = r"C:/number_images/number_Texte_Cardinal"
 font_path = r"C:/number_images/Kanchenjunga-Bold.ttf"
-font_size = 16
+font_size = 20
 
 # Text color (Blue)
-text_color = (0, 0, 0)
-prefix = "Cardinal "                    # Change if you want a different prefix
+text_color = (255,165,0)
+prefix = "O"                    # Change if you want a different prefix
 
-outline_color = (255, 255, 255)      # Set to None to disable outline
-outline_width = 2
-padding = 1                    # Increased slightly for safety +1 par front_size 10
-offset_y = -1                  # -1 par front_size 10
+outline_color = None #(255, 255, 255)      # Set to None to disable outline
+outline_width = 1
+
+# === NEW: Text Highlight ===
+text_highlight = True                    # Enable/disable highlight
+text_highlight_color = (255, 255, 255, 255)    # Black with transparency (RGBA)
+text_highlight_padding = 1               # Extra space around text
+text_highlight_radius = 0                # Rounded corners of highlight
+
+padding = 4                    # Increased slightly for safety +1 par front_size 10
+offset_y = -2                  #  About -1 par front_size 10
 
 # ==================== COMBINATIONS TO GENERATE ====================
-
-all_combinations =  ["N", "S", "E", "W", "NE", "NW", "SE", "SW"]
+#["N", "S", "E", "W", "NE", "NW", "SE", "SW"]
+all_combinations =  ["Top Center", "Top Left", "Top Right", "Left", "Right", "Bottom Center", "Bottom Left", "Bottom Right"]
 # =================================================
 
 os.makedirs(output_dir, exist_ok=True)
@@ -53,7 +60,20 @@ for combo in all_combinations:
     # Center position
     center_x = image_width // 2
     center_y = image_height // 2 + offset_y
-
+    
+# === Draw Text Highlight ===
+    if text_highlight:
+        highlight_left = center_x - text_width//2 - text_highlight_padding - 2
+        highlight_top = center_y - text_height//2 - text_highlight_padding - 2
+        highlight_right = center_x + text_width//2 + text_highlight_padding
+        highlight_bottom = center_y + text_height//2 + text_highlight_padding + 4
+        
+        draw.rounded_rectangle(
+            [highlight_left, highlight_top, highlight_right, highlight_bottom],
+            radius=text_highlight_radius,
+            fill=text_highlight_color
+        )
+        
     # Draw outline
     if outline_color is not None:
         draw.text(

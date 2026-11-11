@@ -4,27 +4,27 @@ import os
 # ==================== SETTINGS ====================
 output_dir = r"C:/number_images/number_Circle"
 font_path = r"C:/number_images/Kanchenjunga-Bold.ttf"
-font_size = 10
+font_size = 12
 
-# Text color (Yellow)
+# Text color (Black)
 text_color = (0, 0, 0)
-prefix = "Re"
+prefix = "Or"
 
 # Text outline
 outline_color = None #(0, 0, 0)      # Set to None to disable
 outline_width = 1
 
-# Circle background - FIXED SIZE
-circle_color = (255, 0, 0)           # Red
+# Circle background - 
+circle_color = (255, 165, 0)           # Red
 circle_outline_color = (255, 255, 255)  # White outline (set to None to disable)
 circle_outline_width = 1
-circle_size_multiplier = 2.0         # ← Main control: how big the circle is relative to font size
+circle_size_multiplier = 1.8         # ← Main control: how big the circle is relative to font size
                                      # Try 2.4 - 2.8 range for good results
 
 # General settings
-off_x = 0
-off_y = -1
-regular_numbers = list(range(1, 29))
+off_x = 1
+off_y = 0
+regular_numbers = list(range(1, 9))
 # =================================================
 
 os.makedirs(output_dir, exist_ok=True)
