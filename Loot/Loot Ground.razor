@@ -1,0 +1,23 @@
+# set you lootbag
+#@setvar jootbag
+@clearignore 
+
+while findtype "3705|3702|3701" ground -1 -1 2 as jbag
+  overhead "Found a bag" 
+while findtype 70157|70148|70151|70154|3985|4025|17686|4026|576|8826|5981|5356|29036|3843|3839|3842|29025|15296|29034|3838|22336|29030|17087|37181|25359|5359|11858|3827|24434|4225|3901|22326 jbag as item
+    @drop backpack        
+        lift item 60000
+        drop jootbag -1 -1 -1
+        wait 700
+        if diffweight <= 8
+         overhead "OVERWEIGHT"
+        break
+        endif
+endwhile
+        if diffweight <= 8
+         overhead "OVERWEIGHT"
+        break
+        endif
+    @ignore jbag
+endwhile
+
