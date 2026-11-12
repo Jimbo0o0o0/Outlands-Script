@@ -107,6 +107,14 @@ while findtype 5356 backpack as item
     wait gc
 endwhile
 
+// Resource maps
+while findtype 70157|70148|70151|70154 backpack as item 
+ drop backpack   
+    lift item 1 backpack
+    drop Distributionchest 25 108 0
+    wait gc
+endwhile
+
 // dyes
 while findtype 29036|3843|3839|3842|29025 backpack as item
     @drop backpack
